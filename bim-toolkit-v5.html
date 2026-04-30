@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<!-- saved from url=(0055)file:///C:/Users/avazquez/Downloads/bim-toolkit-v3.html -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,'Segoe UI',system-ui,sans-serif;background:#f5f4f0;color:#1a1917;font-size:14px;line-height:1.5;min-height:100vh}
+
+.topbar{background:#1c1b19;color:#fff;padding:0 1.5rem;height:50px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.brand{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;letter-spacing:.01em}
+.brand-dot{width:7px;height:7px;border-radius:50%;background:#4ade80}
+.client-btns{display:flex;gap:4px}
+.tc{font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.18);background:transparent;color:rgba(255,255,255,.5);cursor:pointer;font-weight:500;transition:all .15s}
+.tc.on{background:#fff;color:#1c1b19;border-color:#fff}
+
+.tabsbar{background:#fff;border-bottom:1px solid #e8e6e0;padding:0 1.5rem;display:flex;gap:0;position:sticky;top:50px;z-index:99}
+.tabbtn{font-size:13px;font-weight:500;padding:14px 20px;border:none;background:transparent;color:#888;cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;display:flex;align-items:center;gap:8px;transition:all .15s;letter-spacing:.01em}
+.tabbtn:hover{color:#333}
+.tabbtn.ac3d{color:#1a6fb5;border-bottom-color:#1a6fb5}
+.tabbtn.arvt{color:#0f7a5a;border-bottom-color:#0f7a5a}
+.tabbtn.abns{color:#6d28d9;border-bottom-color:#6d28d9}
+.ticon{width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
+.ticon-c3d{background:#1a6fb5;color:#fff}
+.ticon-rvt{background:#0f7a5a;color:#fff}
+.ticon-bns{background:#6d28d9;color:#fff}
+.tbadge{font-size:10px;background:#f0f0ed;color:#888;border-radius:20px;padding:1px 7px;font-weight:500}
+
+.main{max-width:1180px;margin:0 auto;padding:1.5rem 1.5rem 3rem}
+.panel{display:none}.panel.on{display:block}
+
+.ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.25rem;gap:1rem;flex-wrap:wrap}
+.ptitle{font-size:19px;font-weight:600;line-height:1.2}
+.psub{font-size:12px;color:#888;margin-top:3px}
+.spill{display:flex;align-items:center;gap:6px;font-size:11px;color:#888;background:#fff;border:1px solid #e8e6e0;border-radius:20px;padding:5px 13px;white-space:nowrap;flex-shrink:0}
+.sdot{width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0}
+.sdot.amber{background:#f59e0b}
+.sdot.purple{background:#a78bfa}
+
+.fbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem;align-items:center}
+.flabel{font-size:11px;font-weight:600;color:#aaa;text-transform:uppercase;letter-spacing:.07em;margin-right:4px}
+.fb{font-size:12px;padding:5px 14px;border-radius:20px;border:1.5px solid #e8e6e0;background:#fff;color:#555;cursor:pointer;font-weight:500;transition:all .15s}
+.fb:hover{border-color:#bbb;color:#222}
+.fb.fac3d{background:#e8f2fb;color:#1a6fb5;border-color:#5499cc}
+.fb.farvt{background:#e6f5ef;color:#0f7a5a;border-color:#3da882}
+.fb.fabns{background:#ede9fe;color:#6d28d9;border-color:#a78bfa}
+
+.warn{display:none;align-items:center;gap:10px;background:#fef8ec;border:1.5px solid #f0c060;border-radius:8px;padding:9px 15px;font-size:12px;color:#b7770d;margin-bottom:1rem;font-weight:500}
+.warn.on{display:flex}
+.warn-bns{display:none;align-items:center;gap:10px;background:#fdf4ff;border:1.5px solid #c084fc;border-radius:8px;padding:9px 15px;font-size:12px;color:#7e22ce;margin-bottom:1rem;font-weight:500}
+.warn-bns.on{display:flex}
+
+.seclabel{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#aaa;padding:.9rem 0 .5rem;display:flex;align-items:center;gap:8px}
+.seclabel::after{content:'';flex:1;height:1px;background:#e8e6e0}
+.seclabel.danger{color:#c0392b}
+.seclabel.purple{color:#7c3aed}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-bottom:4px}
+
+.card{background:#fff;border:1.5px solid #e8e6e0;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:9px;transition:border-color .15s,transform .1s;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:12px 12px 0 0}
+.card:hover{border-color:#bbb;transform:translateY(-1px)}
+.card.wcard{border-left:3px solid #c0392b;border-radius:10px}
+.card.bcard{border-left:3px solid #7c3aed;border-radius:10px}
+
+.card.cat-model::before{background:#1a6fb5}
+.card.cat-civil::before{background:#b85c00}
+.card.cat-report::before{background:#5b3fc7}
+.card.cat-analysis::before{background:#0066aa}
+.card.cat-param::before{background:#a0256e}
+.card.cat-bim::before{background:#0f7a5a}
+.card.cat-edit::before{background:#c0392b}
+.card.cat-coord::before{background:#8a5700}
+.card.cat-query::before{background:#6d28d9}
+.card.cat-capture::before{background:#0891b2}
+.card.cat-code::before{background:#059669}
+.card.cat-styleifc::before{background:#b45309}
+.card.cat-create::before{background:#c0392b}
+.card.cat-editifc::before{background:#7c3aed}
+
+.badge{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;margin-bottom:2px;letter-spacing:.04em;text-transform:uppercase}
+.badge.cat-model{background:#e8f2fb;color:#1a5a96}
+.badge.cat-civil{background:#fff3e6;color:#9a4d00}
+.badge.cat-report{background:#f0eeff;color:#4a30a8}
+.badge.cat-analysis{background:#e6f5ff;color:#00528a}
+.badge.cat-param{background:#fff0f8;color:#8a1e5e}
+.badge.cat-bim{background:#e6f5ef;color:#0a6147}
+.badge.cat-edit{background:#fdf0ee;color:#9a2e20}
+.badge.cat-coord{background:#fef3e2;color:#724800}
+.badge.cat-query{background:#ede9fe;color:#5b21b6}
+.badge.cat-capture{background:#e0f2fe;color:#075985}
+.badge.cat-code{background:#d1fae5;color:#065f46}
+.badge.cat-styleifc{background:#fef3c7;color:#92400e}
+.badge.cat-create{background:#fde8e8;color:#991b1b}
+.badge.cat-editifc{background:#ede9fe;color:#5b21b6}
+
+.cicon{font-size:18px;line-height:1;margin-bottom:2px}
+.ctitle{font-size:13px;font-weight:600;color:#1a1917;line-height:1.3}
+.cdesc{font-size:11px;color:#888;line-height:1.5;flex:1}
+
+.cbtns{display:flex;gap:6px;margin-top:2px}
+.bsend{flex:1;font-size:11px;font-weight:600;padding:7px 10px;border-radius:7px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;letter-spacing:.01em;transition:opacity .15s,transform .1s}
+.bsend:active{transform:scale(.97)}
+.bc3d{background:#1a6fb5;color:#fff}
+.bc3d:hover{opacity:.88}
+.brvt{background:#0f7a5a;color:#fff}
+.brvt:hover{opacity:.88}
+.bbns{background:#6d28d9;color:#fff}
+.bbns:hover{opacity:.88}
+.bdanger{background:#c0392b;color:#fff}
+.bdanger:hover{opacity:.88}
+.bgem{background:#1a73e8;color:#fff}
+.bgem:hover{opacity:.88}
+.bcopy{font-size:11px;padding:7px 11px;border-radius:7px;border:1.5px solid #e8e6e0;background:#f5f4f0;color:#888;cursor:pointer;font-weight:500;white-space:nowrap;transition:all .15s}
+.bcopy:hover{border-color:#bbb;color:#333}
+.bcopy.ok{background:#e6f5ef;color:#0f7a5a;border-color:#3da882}
+
+.gnote{background:#e8f0fe;border:1px solid #c5d8fa;border-radius:7px;padding:8px 14px;font-size:11px;color:#1a56c4;margin-bottom:1rem;display:none}
+.gnote.on{display:block}
+.bnote{background:#ede9fe;border:1px solid #c4b5fd;border-radius:7px;padding:8px 14px;font-size:11px;color:#5b21b6;margin-bottom:1rem}
+.empty{text-align:center;padding:2.5rem;color:#aaa;font-size:13px;grid-column:1/-1}
+
+.status-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem}
+.stag{font-size:10px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.04em}
+.stag-ok{background:#d1fae5;color:#065f46}
+.stag-warn{background:#fef3c7;color:#92400e}
+.stag-err{background:#fee2e2;color:#991b1b}
+
+  .badge-ok    {background:#d4edda;color:#155724;font-size:10px;padding:1px 6px;border-radius:3px;margin-left:4px;vertical-align:middle}
+  .badge-trial {background:#fff3cd;color:#856404;font-size:10px;padding:1px 6px;border-radius:3px;margin-left:4px;vertical-align:middle}
+  .badge-err   {background:#f8d7da;color:#721c24;font-size:10px;padding:1px 6px;border-radius:3px;margin-left:4px;vertical-align:middle}
+
+  #teams-banner{display:none;position:fixed;top:0;left:0;right:0;z-index:9999;
+    background:#1F5C8B;color:#fff;padding:10px 20px;
+    font-family:Arial,sans-serif;font-size:13px;
+    display:flex;align-items:center;justify-content:space-between;gap:12px}
+  #teams-banner a{color:#fff;font-weight:bold;text-decoration:none;
+    background:rgba(255,255,255,0.2);padding:5px 14px;border-radius:4px;
+    white-space:nowrap}
+  #teams-banner a:hover{background:rgba(255,255,255,0.35)}
+  #teams-banner-close{cursor:pointer;opacity:0.7;font-size:18px;line-height:1;
+    background:none;border:none;color:#fff;padding:0 4px}
+</style>
+</head>
+<body>
+
+<div id="teams-banner" style="display:none">
+  <span>⚡ El toolkit es interactivo — ábrelo en el navegador para usarlo correctamente</span>
+  <a id="teams-open-btn" href="#" target="_blank">Abrir en navegador ↗</a>
+  <button id="teams-banner-close" onclick="document.getElementById('teams-banner').style.display='none'" title="Cerrar">×</button>
+</div>
+
+
+<div class="topbar">
+  <div class="brand">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+    BIM AI Toolkit
+    <div class="brand-dot"></div>
+    <span style="font-size:11px;color:rgba(255,255,255,.4)" id="ts">Civil 3D · Revit 2026 · Bonsai IFC</span>
+  </div>
+  <div class="client-btns">
+    <button class="tc on" onclick="setClient(&#39;claude&#39;,this)">Claude Desktop</button>
+    <button class="tc" onclick="setClient(&#39;gemini&#39;,this)">Gemini CLI</button>
+  </div>
+  <a href="javascript:window.open(window.location.href,'_blank')" style="color:rgba(255,255,255,.75);font-size:12px;text-decoration:none;border:1px solid rgba(255,255,255,.3);padding:4px 12px;border-radius:4px;white-space:nowrap;margin-left:auto" title="Abre el toolkit en el navegador para poder interactuar con él">&#x2197; Abrir en navegador</a>
+</div>
+
+<div class="tabsbar">
+  <button class="tabbtn ac3d" id="tab-c3d" onclick="showTab(&#39;c3d&#39;)">
+    <span class="ticon ticon-c3d">C</span>
+    Civil 3D
+    <span class="tbadge" id="cnt-c3d">18</span>
+  </button>
+  <button class="tabbtn" id="tab-rvt" onclick="showTab(&#39;rvt&#39;)">
+    <span class="ticon ticon-rvt">R</span>
+    Revit
+    <span class="tbadge" id="cnt-rvt">29</span>
+  </button>
+  <button class="tabbtn" id="tab-bns" onclick="showTab(&#39;bns&#39;)">
+    <span class="ticon ticon-bns">B</span>
+    Bonsai IFC
+    <span class="tbadge" id="cnt-bns">23</span>
+  </button>
+</div>
+
+<div class="main">
+
+  <div class="panel on" id="panel-c3d">
+    <div class="ph">
+      <div>
+        <div class="ptitle">Civil 3D</div>
+        <div class="psub">Alineaciones · Perfiles · Movimiento de tierras · Hidráulica · Normativa</div>
+      </div>
+      <div class="spill">
+        <div class="sdot" id="c3d-dot"></div>
+        <span id="c3d-st">civil3d · Claude Desktop</span>
+      </div>
+    </div>
+    <div class="fbar">
+      <span class="flabel">Filtrar</span>
+      <button class="fb fac3d" onclick="fc3d(&#39;all&#39;,this)">Todas</button>
+      <button class="fb" onclick="fc3d(&#39;model&#39;,this)">Modelo</button>
+      <button class="fb" onclick="fc3d(&#39;civil&#39;,this)">Trazado</button>
+      <button class="fb" onclick="fc3d(&#39;report&#39;,this)">Reportes</button>
+      <button class="fb" onclick="fc3d(&#39;analysis&#39;,this)">Análisis</button>
+      <button class="fb" onclick="fc3d(&#39;param&#39;,this)">Parámetros</button>
+    </div>
+    <div class="warn" id="c3d-warn">⚠ Estas herramientas pueden modificar el modelo. Guarda el proyecto antes de usarlas.</div>
+    <div id="c3d-cards"><div class="grid"><div class="card cat-model"><span class="badge cat-model">Modelo</span><span class="cicon">📁</span><div class="ctitle">Estado del proyecto</div><div class="cdesc">Diagnóstico estructurado de todos los objetos del proyecto</div><div class="cbtns"><button class="bsend bc3d" onclick="send(0,&#39;c3d&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-c3d-0" onclick="copy(0,&#39;c3d&#39;,this)">Copiar</button></div></div><div class="card cat-model"><span class="badge cat-model">Modelo</span><span class="cicon">📐</span><div class="ctitle">Alineaciones</div><div class="cdesc">Inventario geométrico detallado de todas las alineaciones</div><div class="cbtns"><button class="bsend bc3d" onclick="send(1,&#39;c3d&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-c3d-1" onclick="copy(1,&#39;c3d&#39;,this)">Copiar</button></div></div><div class="card cat-model"><span class="badge cat-model">Modelo</span><span class="cicon">📏</span><div class="ctitle">Perfiles longitudinales</div><div class="cdesc">Análisis completo de rasante y perfil de terreno</div><div class="cbtns"><button class="bsend bc3d" onclick="send(2,&#39;c3d&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-c3d-2" onclick="copy(2,&#39;c3d&#39;,this)">Copiar</button></div></div><div class="card cat-model"><span class="badge cat-model">Modelo</span><span class="cicon">🗺️</span><div class="ctitle">Superficies</div><div class="cdesc">Estadísticas y calidad de datos de todas las superficies</div><div class="cbtns"><button class="bsend bc3d" onclick="send(3,&#39;c3d&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-c3d-3" onclick="copy(3,&#39;c3d&#39;,this)">Copiar</button></div></div><div class="card cat-model"><span class="badge cat-model">Modelo</span><span class="cicon">📦</span><div class="ctitle">Secciones transversales</div><div class="cdesc">Descripción de la sección tipo y variaciones por regiones</div><div class="cbtns"><button class="bsend bc3d" onclick="send(4,&#39;c3d&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-c3d-4" onclick="copy(4,&#39;c3d&#39;,this)">Copiar</button></div></div><div class="card cat-civil"><span class="badge cat-civil">Trazado</span><span class="cicon">🛣️</span><div class="ctitle">Geometría en planta</div><div class="cdesc">Auditoría normativa de radios, clotoides y tangentes</div><div class="cbtns"><button class="bsend bc3d" onclick="send(5,&#39;c3d&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-c3d-5" onclick="copy(5,&#39;c3d&#39;,this)">Copiar</button></div></div><div class="card cat-civil"><span class="badge cat-civil">Trazado</span><span class="cicon">📉</span><div class="ctitle">Pendientes y rampas</div><div class="cdesc">Detección de pendientes fuera de límites normativos</div><div class="cbtns"><button class="bsend bc3d" onclick="send(6,&#39;c3d&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-c3d-6" onclick="copy(6,&#39;c3d&#39;,this)">Copiar</button></div></div><div class="card cat-civil"><span class="badge cat-civil">Trazado</span><span class="cicon">🔄</span><div class="ctitle">Acuerdos verticales</div><div class="cdesc">Auditoría de parámetros Kv y visibilidades asociadas</div><div class="cbtns"><button class="bsend bc3d" onclick="send(7,&#39;c3d&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-c3d-7" onclick="copy(7,&#39;c3d&#39;,this)">Copiar</button></div></div><div class="card cat-civil"><span class="badge cat-civil">Trazado</span><span class="cicon">⚠️</span><div class="ctitle">Puntos críticos del trazado</div><div class="cdesc">Identificación de zonas con acumulación de restricciones</div><div class="cbtns"><button class="bsend bc3d" onclick="send(8,&#39;c3d&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-c3d-8" onclick="copy(8,&#39;c3d&#39;,this)">Copiar</button></div></div><div class="card cat-report"><span class="badge cat-report">Reporte</span><span class="cicon">📄</span><div class="ctitle">Informe de trazado</div><div class="cdesc">Memoria técnica de geometría según estructura normativa</div><div class="cbtns"><button class="bsend bc3d" onclick="send(9,&#39;c3d&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-c3d-9" onclick="copy(9,&#39;c3d&#39;,this)">Copiar</button></div></div><div class="card cat-report"><span class="badge cat-report">Reporte</span><span class="cicon">⚖️</span><div class="ctitle">Balance de tierras</div><div class="cdesc">Cálculo de volúmenes y análisis de transporte óptimo</div><div class="cbtns"><button class="bsend bc3d" onclick="send(10,&#39;c3d&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-c3d-10" onclick="copy(10,&#39;c3d&#39;,this)">Copiar</button></div></div><div class="card cat-report"><span class="badge cat-report">Reporte</span><span class="cicon">💧</span><div class="ctitle">Informe hidráulico</div><div class="cdesc">Análisis de cuencas, caudales y dimensionamiento de drenaje</div><div class="cbtns"><button class="bsend bc3d" onclick="send(11,&#39;c3d&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-c3d-11" onclick="copy(11,&#39;c3d&#39;,this)">Copiar</button></div></div><div class="card cat-report"><span class="badge cat-report">Reporte</span><span class="cicon">📊</span><div class="ctitle">Mediciones por tramos</div><div class="cdesc">Cuadro de precios y mediciones para presupuesto</div><div class="cbtns"><button class="bsend bc3d" onclick="send(12,&#39;c3d&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-c3d-12" onclick="copy(12,&#39;c3d&#39;,this)">Copiar</button></div></div><div class="card cat-analysis"><span class="badge cat-analysis">Análisis</span><span class="cicon">📏</span><div class="ctitle">Distancias de visibilidad</div><div class="cdesc">Verificación estación a estación de Dp y Dav normativa</div><div class="cbtns"><button class="bsend bc3d" onclick="send(13,&#39;c3d&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-c3d-13" onclick="copy(13,&#39;c3d&#39;,this)">Copiar</button></div></div><div class="card cat-analysis"><span class="badge cat-analysis">Análisis</span><span class="cicon">🌧️</span><div class="ctitle">Análisis de drenaje longitudinal</div><div class="cdesc">Puntos bajos, pendiente transversal y capacidad de cunetas</div><div class="cbtns"><button class="bsend bc3d" onclick="send(14,&#39;c3d&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-c3d-14" onclick="copy(14,&#39;c3d&#39;,this)">Copiar</button></div></div><div class="card cat-analysis"><span class="badge cat-analysis">Análisis</span><span class="cicon">🔀</span><div class="ctitle">Coordinación planta-alzado</div><div class="cdesc">Verificación de coherencia estética y funcional entre planta y perfil</div><div class="cbtns"><button class="bsend bc3d" onclick="send(15,&#39;c3d&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-c3d-15" onclick="copy(15,&#39;c3d&#39;,this)">Copiar</button></div></div><div class="card cat-param"><span class="badge cat-param">Parámetros</span><span class="cicon">🏷️</span><div class="ctitle">Parámetros de diseño por alineación</div><div class="cdesc">Ficha técnica completa de criterios de diseño adoptados</div><div class="cbtns"><button class="bsend bc3d" onclick="send(16,&#39;c3d&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-c3d-16" onclick="copy(16,&#39;c3d&#39;,this)">Copiar</button></div></div><div class="card cat-param"><span class="badge cat-param">Parámetros</span><span class="cicon">📝</span><div class="ctitle">Calidad de datos de superficies</div><div class="cdesc">Diagnóstico de fiabilidad y errores en datos de terreno</div><div class="cbtns"><button class="bsend bc3d" onclick="send(17,&#39;c3d&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-c3d-17" onclick="copy(17,&#39;c3d&#39;,this)">Copiar</button></div></div></div></div>
+  </div>
+
+  <div class="panel" id="panel-rvt">
+    <div class="ph">
+      <div>
+        <div class="ptitle">Revit</div>
+        <div class="psub">Elementos BIM · Habitaciones · Familias · Parámetros · Coordinación</div>
+      </div>
+      <div class="spill">
+        <div class="sdot"></div>
+        <span id="rvt-st">mcp-server-for-revit · Revit 2026</span>
+      </div>
+    </div>
+    <div class="gnote" id="gnote">Gemini CLI: copia el prompt con el botón "Copiar" y pégalo en la terminal de Gemini con Revit abierto.</div>
+    <div class="fbar">
+      <span class="flabel">Filtrar</span>
+      <button class="fb farvt" onclick="frvt(&#39;all&#39;,this)">Todas</button>
+      <button class="fb" onclick="frvt(&#39;model&#39;,this)">Lectura</button>
+      <button class="fb" onclick="frvt(&#39;bim&#39;,this)">Análisis BIM</button>
+      <button class="fb" onclick="frvt(&#39;report&#39;,this)">Reportes</button>
+      <button class="fb" onclick="frvt(&#39;param&#39;,this)">Parámetros</button>
+      <button class="fb" onclick="frvt(&#39;edit&#39;,this)">Edición</button>
+      <button class="fb" onclick="frvt(&#39;coord&#39;,this)">Coord. Civil 3D</button>
+    </div>
+    <div class="warn" id="rvt-warn">⚠ Estas herramientas modifican el modelo. Guarda el proyecto en Revit antes de usarlas.</div>
+    <div id="rvt-cards"><div class="seclabel">Lectura y análisis</div><div class="grid"><div class="card cat-model"><span class="badge cat-model">Modelo</span><span class="cicon">🏢</span><div class="ctitle">Diagnóstico de niveles</div><div class="cdesc">Inventario de niveles con cotas, usos y disciplinas</div><div class="cbtns"><button class="bsend brvt" onclick="send(0,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-0" onclick="copy(0,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-model"><span class="badge cat-model">Modelo</span><span class="cicon">🚪</span><div class="ctitle">Inventario por categorías</div><div class="cdesc">Conteo y clasificación completa de todos los elementos</div><div class="cbtns"><button class="bsend brvt" onclick="send(1,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-1" onclick="copy(1,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-model"><span class="badge cat-model">Modelo</span><span class="cicon">🏠</span><div class="ctitle">Habitaciones y áreas</div><div class="cdesc">Cuadro de superficies por uso, nivel y compartimentación</div><div class="cbtns"><button class="bsend brvt" onclick="send(2,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-2" onclick="copy(2,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-model"><span class="badge cat-model">Modelo</span><span class="cicon">📐</span><div class="ctitle">Dimensiones y envolvente</div><div class="cdesc">Dimensiones generales, volumen y orientación del edificio</div><div class="cbtns"><button class="bsend brvt" onclick="send(3,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-3" onclick="copy(3,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-model"><span class="badge cat-model">Modelo</span><span class="cicon">🔍</span><div class="ctitle">Auditoría de vistas</div><div class="cdesc">Inventario de vistas, hojas y estado de documentación</div><div class="cbtns"><button class="bsend brvt" onclick="send(4,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-4" onclick="copy(4,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-bim"><span class="badge cat-bim">BIM</span><span class="cicon">🧱</span><div class="ctitle">Análisis de tipos de muro</div><div class="cdesc">Composición, espesores y propiedades térmicas de muros</div><div class="cbtns"><button class="bsend brvt" onclick="send(5,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-5" onclick="copy(5,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-bim"><span class="badge cat-bim">BIM</span><span class="cicon">🪵</span><div class="ctitle">Inventario de materiales</div><div class="cdesc">Materiales usados, propiedades físicas y térmicas definidas</div><div class="cbtns"><button class="bsend brvt" onclick="send(6,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-6" onclick="copy(6,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-bim"><span class="badge cat-bim">BIM</span><span class="cicon">📊</span><div class="ctitle">Cuadro de superficies por uso</div><div class="cdesc">Análisis de programa funcional y ratios de eficiencia</div><div class="cbtns"><button class="bsend brvt" onclick="send(7,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-7" onclick="copy(7,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-bim"><span class="badge cat-bim">BIM</span><span class="cicon">🔩</span><div class="ctitle">Estructura — inventario y revisión</div><div class="cdesc">Pilares, vigas, forjados y cimentación con secciones y materiales</div><div class="cbtns"><button class="bsend brvt" onclick="send(8,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-8" onclick="copy(8,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-bim"><span class="badge cat-bim">BIM</span><span class="cicon">💡</span><div class="ctitle">Sistemas MEP — diagnóstico</div><div class="cdesc">Inventario de sistemas, conectores sin conectar y coherencia</div><div class="cbtns"><button class="bsend brvt" onclick="send(9,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-9" onclick="copy(9,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-report"><span class="badge cat-report">Reporte</span><span class="cicon">📄</span><div class="ctitle">Memoria BIM del proyecto</div><div class="cdesc">Informe ejecutivo completo del modelo para entrega o revisión</div><div class="cbtns"><button class="bsend brvt" onclick="send(10,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-10" onclick="copy(10,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-report"><span class="badge cat-report">Reporte</span><span class="cicon">📋</span><div class="ctitle">Mediciones por nivel</div><div class="cdesc">Cuantificación para presupuesto nivel a nivel</div><div class="cbtns"><button class="bsend brvt" onclick="send(11,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-11" onclick="copy(11,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-report"><span class="badge cat-report">Reporte</span><span class="cicon">🏗️</span><div class="ctitle">Control de calidad BIM (QA)</div><div class="cdesc">Auditoría sistemática según estándares LOD y BIM Execution Plan</div><div class="cbtns"><button class="bsend brvt" onclick="send(12,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-12" onclick="copy(12,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-report"><span class="badge cat-report">Reporte</span><span class="cicon">📦</span><div class="ctitle">Preparación para exportación IFC</div><div class="cdesc">Verificación previa y mapeo de clases IFC por categoría</div><div class="cbtns"><button class="bsend brvt" onclick="send(13,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-13" onclick="copy(13,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-param"><span class="badge cat-param">Parámetros</span><span class="cicon">🏷️</span><div class="ctitle">Auditoría de parámetros</div><div class="cdesc">Inventario de parámetros de proyecto, compartidos y de familia</div><div class="cbtns"><button class="bsend brvt" onclick="send(14,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-14" onclick="copy(14,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-param"><span class="badge cat-param">Parámetros</span><span class="cicon">🔎</span><div class="ctitle">Parámetros vacíos críticos</div><div class="cdesc">Detección de campos obligatorios sin rellenar por categoría</div><div class="cbtns"><button class="bsend brvt" onclick="send(15,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-15" onclick="copy(15,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-param"><span class="badge cat-param">Parámetros</span><span class="cicon">✏️</span><div class="ctitle">Parámetros por familia</div><div class="cdesc">Ficha técnica de parámetros de tipo e instancia por familia</div><div class="cbtns"><button class="bsend brvt" onclick="send(16,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-16" onclick="copy(16,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-param"><span class="badge cat-param">Parámetros</span><span class="cicon">📝</span><div class="ctitle">Extracción de valores por parámetro</div><div class="cdesc">Tabla de un parámetro específico en todos los elementos</div><div class="cbtns"><button class="bsend brvt" onclick="send(17,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-17" onclick="copy(17,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-coord"><span class="badge cat-coord">Coordinación</span><span class="cicon">🛣️</span><div class="ctitle">Coherencia de cotas rasante–Revit</div><div class="cdesc">Comparación sistemática de cotas entre modelos Civil 3D y Revit</div><div class="cbtns"><button class="bsend brvt" onclick="send(25,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-25" onclick="copy(25,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-coord"><span class="badge cat-coord">Coordinación</span><span class="cicon">🏗️</span><div class="ctitle">Interferencias estructura–infraestructura</div><div class="cdesc">Detección de conflictos entre elementos Revit y geometría de Civil 3D</div><div class="cbtns"><button class="bsend brvt" onclick="send(26,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-26" onclick="copy(26,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-coord"><span class="badge cat-coord">Coordinación</span><span class="cicon">📏</span><div class="ctitle">Alineación de ejes y sistema de coordenadas</div><div class="cdesc">Verificación del punto de origen, norte de proyecto y transformación de coordenadas</div><div class="cbtns"><button class="bsend brvt" onclick="send(27,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-27" onclick="copy(27,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-coord"><span class="badge cat-coord">Coordinación</span><span class="cicon">🌊</span><div class="ctitle">Redes bajo rasante y reservas de paso</div><div class="cdesc">Cotas de instalaciones enterradas vs. topografía de Civil 3D</div><div class="cbtns"><button class="bsend brvt" onclick="send(28,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-28" onclick="copy(28,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-coord"><span class="badge cat-coord">Coordinación</span><span class="cicon">🔗</span><div class="ctitle">Informe de coordinación interdisciplinar</div><div class="cdesc">Detección de conflictos geométricos entre Civil 3D y Revit con plan de resolución</div><div class="cbtns"><button class="bsend brvt" onclick="send(29,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-29" onclick="copy(29,&#39;rvt&#39;,this)">Copiar</button></div></div></div><div class="seclabel danger">Edición del modelo — guarda el proyecto antes de usar</div><div class="grid"><div class="card cat-edit wcard"><span class="badge cat-edit">Edición</span><span class="cicon">🆕</span><div class="ctitle">Crear habitación con datos completos</div><div class="cdesc">Crea un recinto con nombre, número, nivel y parámetros de uso</div><div class="cbtns"><button class="bsend bdanger" onclick="send(18,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-18" onclick="copy(18,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-edit wcard"><span class="badge cat-edit">Edición</span><span class="cicon">🧱</span><div class="ctitle">Crear muro con tipo y datos de proyecto</div><div class="cdesc">Añade un muro verificando tipo, nivel y dimensiones antes de ejecutar</div><div class="cbtns"><button class="bsend bdanger" onclick="send(19,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-19" onclick="copy(19,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-edit wcard"><span class="badge cat-edit">Edición</span><span class="cicon">📏</span><div class="ctitle">Crear nivel con vistas asociadas</div><div class="cdesc">Añade un nivel de planta con su vista de planta y sección correctas</div><div class="cbtns"><button class="bsend bdanger" onclick="send(20,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-20" onclick="copy(20,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-edit wcard"><span class="badge cat-edit">Edición</span><span class="cicon">🏷️</span><div class="ctitle">Actualizar parámetros en lote</div><div class="cdesc">Modifica un parámetro en múltiples elementos con previsualización previa</div><div class="cbtns"><button class="bsend bdanger" onclick="send(21,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-21" onclick="copy(21,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-edit wcard"><span class="badge cat-edit">Edición</span><span class="cicon">🚪</span><div class="ctitle">Colocar puerta o ventana</div><div class="cdesc">Inserta carpintería verificando tipo, dimensiones y muro anfitrión</div><div class="cbtns"><button class="bsend bdanger" onclick="send(22,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-22" onclick="copy(22,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-edit wcard"><span class="badge cat-edit">Edición</span><span class="cicon">🏷️</span><div class="ctitle">Etiquetar elementos automáticamente</div><div class="cdesc">Coloca tags con verificación de vistas y elementos sin etiquetar</div><div class="cbtns"><button class="bsend bdanger" onclick="send(23,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-23" onclick="copy(23,&#39;rvt&#39;,this)">Copiar</button></div></div><div class="card cat-edit wcard"><span class="badge cat-edit">Edición</span><span class="cicon">🗑️</span><div class="ctitle">Eliminar elementos con análisis de impacto</div><div class="cdesc">Borrado seguro con detección de dependencias antes de ejecutar</div><div class="cbtns"><button class="bsend bdanger" onclick="send(24,&#39;rvt&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-rvt-24" onclick="copy(24,&#39;rvt&#39;,this)">Copiar</button></div></div></div></div>
+  </div>
+
+  <div class="panel" id="panel-bns">
+    <div class="ph">
+      <div>
+        <div class="ptitle">Bonsai IFC</div>
+        <div class="psub">ifc-bonsai-mcp · Blender 4.5 · Bonsai 0.8.3 · IFC4X3 · Puerto 9876</div>
+      </div>
+      <div class="spill">
+        <div class="sdot purple" id="bns-dot"></div>
+        <span id="bns-st">ifc-bonsai-mcp · Claude Desktop</span>
+      </div>
+    </div>
+    <div class="bnote">💡 <strong>Requisitos:</strong> Blender abierto con Bonsai + addon BlenderMCP conectado en puerto 9876. El servidor <code>bonsai-mcp</code> debe estar <strong>desactivado</strong> para liberar el puerto. Guarda el archivo .ifc antes de usar herramientas de escritura.</div>
+    <div class="fbar">
+      <span class="flabel">Filtrar</span>
+      <button class="fb fabns" onclick="fbns(&#39;all&#39;,this)">Todas</button>
+      <button class="fb" onclick="fbns(&#39;query&#39;,this)">Consulta IFC</button>
+      <button class="fb" onclick="fbns(&#39;capture&#39;,this)">Capturas</button>
+      <button class="fb" onclick="fbns(&#39;code&#39;,this)">Código</button>
+      <button class="fb" onclick="fbns(&#39;styleifc&#39;,this)">Estilos</button>
+      <button class="fb" onclick="fbns(&#39;create&#39;,this)">Creación</button>
+      <button class="fb" onclick="fbns(&#39;editifc&#39;,this)">Edición</button>
+    </div>
+    <div class="warn-bns" id="bns-warn">⚠ Herramientas de escritura IFC. Guarda el archivo .ifc en Blender antes de ejecutar (Ctrl+S). En modelos grandes puede producirse timeout — prueba en modelos pequeños primero.</div>
+    <div id="bns-cards"><div class="seclabel">Lectura, consulta y capturas</div><div class="grid"><div class="card cat-query"><span class="badge cat-query">Consulta IFC</span><span class="cicon">🔍</span><div class="ctitle">Vista general del modelo IFC</div><div class="cdesc">Diagnóstico completo: esquema, jerarquía espacial, unidades y conteo por clase</div><div class="cbtns"><button class="bsend bbns" onclick="send(0,&#39;bns&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-bns-0" onclick="copy(0,&#39;bns&#39;,this)">Copiar</button></div></div><div class="card cat-query"><span class="badge cat-query">Consulta IFC</span><span class="cicon">📦</span><div class="ctitle">Inventario detallado de objetos</div><div class="cdesc">Lista completa de todos los objetos con GUID, tipo y ubicación en el espacio 3D</div><div class="cbtns"><button class="bsend bbns" onclick="send(1,&#39;bns&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-bns-1" onclick="copy(1,&#39;bns&#39;,this)">Copiar</button></div></div><div class="card cat-query"><span class="badge cat-query">Consulta IFC</span><span class="cicon">🎯</span><div class="ctitle">Inspección de objeto seleccionado</div><div class="cdesc">Análisis profundo de la entidad IFC actualmente seleccionada en Blender</div><div class="cbtns"><button class="bsend bbns" onclick="send(2,&#39;bns&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-bns-2" onclick="copy(2,&#39;bns&#39;,this)">Copiar</button></div></div><div class="card cat-query"><span class="badge cat-query">Consulta IFC</span><span class="cicon">📐</span><div class="ctitle">Propiedades geométricas detalladas</div><div class="cdesc">Geometría Blender del objeto: vértices, caras, bbox y matriz de transformación</div><div class="cbtns"><button class="bsend bbns" onclick="send(3,&#39;bns&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-bns-3" onclick="copy(3,&#39;bns&#39;,this)">Copiar</button></div></div><div class="card cat-query"><span class="badge cat-query">Consulta IFC</span><span class="cicon">🧱</span><div class="ctitle">Análisis de losa (IfcSlab)</div><div class="cdesc">Propiedades geométricas completas de una losa: espesor, polilínea y tipo</div><div class="cbtns"><button class="bsend bbns" onclick="send(4,&#39;bns&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-bns-4" onclick="copy(4,&#39;bns&#39;,this)">Copiar</button></div></div><div class="card cat-query"><span class="badge cat-query">Consulta IFC</span><span class="cicon">🏷️</span><div class="ctitle">Catálogo de estilos del modelo</div><div class="cdesc">Lista completa de estilos de superficie con color RGB, transparencia y uso</div><div class="cbtns"><button class="bsend bbns" onclick="send(5,&#39;bns&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-bns-5" onclick="copy(5,&#39;bns&#39;,this)">Copiar</button></div></div><div class="card cat-query"><span class="badge cat-query">Consulta IFC</span><span class="cicon">🚪</span><div class="ctitle">Tipos de operación de puertas disponibles</div><div class="cdesc">Catálogo de modos de apertura IFC con descripción funcional</div><div class="cbtns"><button class="bsend bbns" onclick="send(6,&#39;bns&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-bns-6" onclick="copy(6,&#39;bns&#39;,this)">Copiar</button></div></div><div class="card cat-query"><span class="badge cat-query">Consulta IFC</span><span class="cicon">🏠</span><div class="ctitle">Tipos de cubierta y escalera disponibles</div><div class="cdesc">Catálogo de tipos IFC de cubierta y escalera para nuevas creaciones</div><div class="cbtns"><button class="bsend bbns" onclick="send(7,&#39;bns&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-bns-7" onclick="copy(7,&#39;bns&#39;,this)">Copiar</button></div></div><div class="card cat-query"><span class="badge cat-query">Consulta IFC</span><span class="cicon">📊</span><div class="ctitle">Estado del sistema RAG de conocimiento IFC</div><div class="cdesc">Diagnóstico del sistema de búsqueda semántica sobre documentación IFC</div><div class="cbtns"><button class="bsend bbns" onclick="send(8,&#39;bns&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-bns-8" onclick="copy(8,&#39;bns&#39;,this)">Copiar</button></div></div><div class="card cat-capture"><span class="badge cat-capture">Captura</span><span class="cicon">📸</span><div class="ctitle">Captura del viewport 3D</div><div class="cdesc">Imagen limpia del modelo 3D sin interfaz de usuario Blender</div><div class="cbtns"><button class="bsend bbns" onclick="send(9,&#39;bns&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-bns-9" onclick="copy(9,&#39;bns&#39;,this)">Copiar</button></div></div><div class="card cat-capture"><span class="badge cat-capture">Captura</span><span class="cicon">🖥️</span><div class="ctitle">Captura completa de Blender</div><div class="cdesc">Pantalla completa con UI, outliner, propiedades Bonsai y viewport</div><div class="cbtns"><button class="bsend bbns" onclick="send(10,&#39;bns&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-bns-10" onclick="copy(10,&#39;bns&#39;,this)">Copiar</button></div></div><div class="card cat-code"><span class="badge cat-code">Código IFC</span><span class="cicon">⚙️</span><div class="ctitle">Consulta directa al modelo IFC (Python)</div><div class="cdesc">Ejecuta código ifcopenshell para extraer datos avanzados no accesibles por otras tools</div><div class="cbtns"><button class="bsend bbns" onclick="send(11,&#39;bns&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-bns-11" onclick="copy(11,&#39;bns&#39;,this)">Copiar</button></div></div><div class="card cat-code"><span class="badge cat-code">Código IFC</span><span class="cicon">🔬</span><div class="ctitle">Extracción de Property Sets completos</div><div class="cdesc">Vuelca todos los Psets de una clase IFC con análisis de completitud</div><div class="cbtns"><button class="bsend bbns" onclick="send(12,&#39;bns&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-bns-12" onclick="copy(12,&#39;bns&#39;,this)">Copiar</button></div></div><div class="card cat-styleifc"><span class="badge cat-styleifc">Estilos</span><span class="cicon">🎨</span><div class="ctitle">Auditoría de estilos del modelo</div><div class="cdesc">Análisis de la paleta cromática IFC y detección de estilos duplicados o sin usar</div><div class="cbtns"><button class="bsend bbns" onclick="send(13,&#39;bns&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-bns-13" onclick="copy(13,&#39;bns&#39;,this)">Copiar</button></div></div></div><div class="seclabel purple">Escritura IFC — guarda el archivo .ifc antes de usar (Ctrl+S)</div><div class="grid"><div class="card cat-create bcard"><span class="badge cat-create">Creación</span><span class="cicon">🧱</span><div class="ctitle">Crear muro entre dos puntos</div><div class="cdesc">IfcWall paramétrico definido por punto inicial, punto final, altura y espesor</div><div class="cbtns"><button class="bsend bdanger" onclick="send(14,&#39;bns&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-bns-14" onclick="copy(14,&#39;bns&#39;,this)">Copiar</button></div></div><div class="card cat-create bcard"><span class="badge cat-create">Creación</span><span class="cicon">⬜</span><div class="ctitle">Crear losa IfcSlab personalizada</div><div class="cdesc">Losa con polilínea perimetral personalizada, espesor y posición 3D</div><div class="cbtns"><button class="bsend bdanger" onclick="send(15,&#39;bns&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-bns-15" onclick="copy(15,&#39;bns&#39;,this)">Copiar</button></div></div><div class="card cat-create bcard"><span class="badge cat-create">Creación</span><span class="cicon">🏠</span><div class="ctitle">Crear cubierta IfcRoof</div><div class="cdesc">Cubierta paramétrica con tipo geométrico (plana, dos aguas, caballete), ángulo y espesor</div><div class="cbtns"><button class="bsend bdanger" onclick="send(16,&#39;bns&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-bns-16" onclick="copy(16,&#39;bns&#39;,this)">Copiar</button></div></div><div class="card cat-create bcard"><span class="badge cat-create">Creación</span><span class="cicon">🪜</span><div class="ctitle">Crear escalera IfcStair</div><div class="cdesc">Escalera paramétrica con tipo geométrico, altura, anchura y número de peldaños</div><div class="cbtns"><button class="bsend bdanger" onclick="send(17,&#39;bns&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-bns-17" onclick="copy(17,&#39;bns&#39;,this)">Copiar</button></div></div><div class="card cat-create bcard"><span class="badge cat-create">Creación</span><span class="cicon">🚪</span><div class="ctitle">Crear puerta IfcDoor</div><div class="cdesc">Puerta paramétrica con tipo de operación, dimensiones y muro anfitrión opcional</div><div class="cbtns"><button class="bsend bdanger" onclick="send(18,&#39;bns&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-bns-18" onclick="copy(18,&#39;bns&#39;,this)">Copiar</button></div></div><div class="card cat-create bcard"><span class="badge cat-create">Creación</span><span class="cicon">🪟</span><div class="ctitle">Crear ventana IfcWindow</div><div class="cdesc">Ventana con tipo de partición de hojas, marco, panel y posición en muro</div><div class="cbtns"><button class="bsend bdanger" onclick="send(19,&#39;bns&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-bns-19" onclick="copy(19,&#39;bns&#39;,this)">Copiar</button></div></div><div class="card cat-editifc bcard"><span class="badge cat-editifc">Edición IFC</span><span class="cicon">✏️</span><div class="ctitle">Actualizar geometría de losa existente</div><div class="cdesc">Modifica la polilínea perimetral o el espesor de una losa IfcSlab por GUID</div><div class="cbtns"><button class="bsend bdanger" onclick="send(20,&#39;bns&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-bns-20" onclick="copy(20,&#39;bns&#39;,this)">Copiar</button></div></div><div class="card cat-editifc bcard"><span class="badge cat-editifc">Edición IFC</span><span class="cicon">🎨</span><div class="ctitle">Crear y aplicar estilo de superficie</div><div class="cdesc">Define un nuevo estilo de color y lo aplica a uno o varios objetos IFC</div><div class="cbtns"><button class="bsend bdanger" onclick="send(21,&#39;bns&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-bns-21" onclick="copy(21,&#39;bns&#39;,this)">Copiar</button></div></div><div class="card cat-editifc bcard"><span class="badge cat-editifc">Edición IFC</span><span class="cicon">🔧</span><div class="ctitle">Modificar propiedades IFC via código Python</div><div class="cdesc">Edición directa de atributos, property sets y relaciones usando ifcopenshell.api</div><div class="cbtns"><button class="bsend bdanger" onclick="send(22,&#39;bns&#39;)">Enviar a Claude ↗</button><button class="bcopy" id="cp-bns-22" onclick="copy(22,&#39;bns&#39;,this)">Copiar</button></div></div></div></div>
+  </div>
+
+</div>
+
+<script>
+var client='claude';
+var ac3d='all',arvt='all',abns='all';
+
+// ── Datos locales fallback (usados si SP no responde) ─────────────────
+var _localC3d=[
+  {cat:'model',icon:'📁',title:'Estado del proyecto',desc:'Diagnóstico estructurado de todos los objetos del proyecto',prompt:'Realiza un diagnóstico completo del proyecto Civil 3D activo. Para cada categoría de objeto, indica: (1) ALINEACIONES: nombre, longitud total, rango de PKs, velocidad de proyecto asociada si existe. (2) PERFILES: alineación a la que pertenecen, número de PIVs, rango de cotas. (3) SUPERFICIES: nombre, tipo (TIN/Grid/Volumen), número de puntos y triángulos, cota máx/mín/media. (4) CORREDORES: alineaciones y perfiles asociados, número de regiones, subassemblies utilizados. (5) REDES DE TUBERÍAS: número de tuberías y pozos, rango de diámetros. (6) Indica si existen objetos con errores de compilación o definición incompleta. Estructura la respuesta en secciones numeradas con tabla resumen al final.'},
+  {cat:'model',icon:'📐',title:'Alineaciones',desc:'Inventario geométrico detallado de todas las alineaciones',prompt:'Para cada alineación del proyecto, extrae y tabula la siguiente información: nombre completo, tipo (carretera/ferrocarril/canal/otro), longitud total (m), PK inicial y PK final, número de elementos en planta desglosados por tipo (rectas, curvas circulares, clotoides), radio mínimo de curva circular (m), radio máximo (m), parámetro A mínimo de clotoide (m), ángulo de deflexión total acumulado (grados), y el sistema de coordenadas de referencia. Si hay alineaciones sin perfil de rasante asociado, señálalas explícitamente. Genera una tabla comparativa ordenada por longitud descendente.'},
+  {cat:'model',icon:'📏',title:'Perfiles longitudinales',desc:'Análisis completo de rasante y perfil de terreno',prompt:'Para cada par perfil de terreno / rasante del proyecto, proporciona: (1) Tabla de PIVs con PK, cota rasante y pendiente entrante/saliente en cada PIV. (2) Para cada acuerdo vertical: tipo (cóncavo/convexo), PK del PIV, longitud del acuerdo, parámetro Kv, cotas de inicio, vértice y final. (3) Pendiente máxima y mínima encontradas, con el PK donde se producen. (4) Diferencia máxima de cotas entre terreno y rasante (desmonte máximo y terraplén máximo) con su PK. (5) Puntos de paso por cero (cruce terreno-rasante) ordenados por PK. Presenta todo en tablas separadas por alineación.'},
+  {cat:'model',icon:'🗺️',title:'Superficies',desc:'Estadísticas y calidad de datos de todas las superficies',prompt:'Analiza todas las superficies del proyecto y para cada una proporciona: nombre, tipo de superficie (TIN/Grid/Volumen), fuente de datos (nube de puntos/curvas de nivel/puntos de levantamiento/otra superficie), número de puntos de datos, número de triángulos (TIN) o celdas (Grid), cota mínima / máxima / media / desviación estándar, pendiente mínima / máxima / media, área en planta (m²) y área de superficie real (m²). Detecta y reporta: zonas con triángulos de pendiente > 45° (posible error de datos), bordes de superficie con saltos bruscos de cota, y superficies de volumen indicando volumen de relleno y corte acumulado. Genera tabla resumen comparativa.'},
+  {cat:'model',icon:'📦',title:'Secciones transversales',desc:'Descripción de la sección tipo y variaciones por regiones',prompt:'Para cada corredor del proyecto, describe las secciones transversales tipo: (1) Lista de subassemblies usados, de izquierda a derecha, con ancho y parámetros de cada elemento (carril, arcén, cuneta, talud de desmonte/terraplén). (2) Taludes de desmonte y terraplén por tipo de terreno si hay regiones diferenciadas, indicando el rango de PKs. (3) Ancho total de plataforma mínimo y máximo a lo largo del trazado. (4) Tabla de puntos de variación de sección (cambios de región) con PK y descripción del cambio. (5) Identifica si existen secciones con solapamiento geométrico o anchuras menores a la sección tipo por restricciones externas.'},
+  {cat:'civil',icon:'🛣️',title:'Geometría en planta',desc:'Auditoría normativa de radios, clotoides y tangentes',prompt:'Realiza una auditoría normativa de la geometría en planta de todas las alineaciones. Para cada elemento: tipo, PK inicial y final, longitud, radio (curvas) y parámetro A (clotoides). Aplica los criterios de la Instrucción 3.1-IC (o indica qué normativa aplicar si es diferente) para la velocidad de proyecto asignada y verifica: (1) Radio mínimo absoluto y normal según Vp. (2) Longitud mínima de clotoide según relación A≥R/3 y A≤R. (3) Relación entre radios en curvas compuestas o inversas (R1/R2 ≤ 1.5 recomendado). (4) Longitud mínima de rectas entre curvas del mismo sentido. (5) Señala cada incumplimiento con su PK, valor actual y valor normativo requerido, y clasifícalo como CRÍTICO o ADVERTENCIA.'},
+  {cat:'civil',icon:'📉',title:'Pendientes y rampas',desc:'Detección de pendientes fuera de límites normativos',prompt:'Analiza las pendientes del perfil de rasante en todas las alineaciones del proyecto. Para cada tramo entre PIVs indica: PK inicio, PK fin, longitud (m) y pendiente (%). Aplica los límites normativos de la Instrucción 3.1-IC según la velocidad de proyecto (pendiente máxima absoluta según tipo de vía, pendiente mínima 0.5% para drenaje longitudinal). Genera tres listados: (A) Tramos con pendiente superior al máximo normativo, con el exceso en puntos porcentuales. (B) Tramos con pendiente inferior al 0.5% con riesgo de drenaje deficiente. (C) Tramos con pendiente > 5% en longitud > 500 m, con implicaciones en la capacidad de vehículos pesados. Para cada incidencia indica corrección mínima necesaria.'},
+  {cat:'civil',icon:'🔄',title:'Acuerdos verticales',desc:'Auditoría de parámetros Kv y visibilidades asociadas',prompt:'Para cada acuerdo vertical del proyecto, realiza el siguiente análisis: (1) Tabla con: PK del PIV, tipo (cóncavo/convexo), diferencia algebraica de pendientes (%), longitud del acuerdo (m), parámetro Kv calculado. (2) Para acuerdos convexos: calcula la distancia de visibilidad de parada (Dp) proporcionada con altura de ojo 1.10 m y altura de obstáculo 0.20 m, y compárala con la Dp mínima normativa según Vp (3.1-IC Tabla 3.1). (3) Para acuerdos cóncavos: verifica el Kv mínimo por comodidad (a≤0.6 m/s²) y por visibilidad nocturna. (4) Clasifica cada acuerdo como CUMPLE / NO CUMPLE / MARGINAL (<10% de margen). Indica la longitud mínima de acuerdo requerida en cada caso incumplidor.'},
+  {cat:'civil',icon:'⚠️',title:'Puntos críticos del trazado',desc:'Identificación de zonas con acumulación de restricciones',prompt:'Identifica todos los puntos críticos del trazado donde se acumulan restricciones geométricas. Busca específicamente: (1) Curvas circulares con radio próximo al mínimo normativo (<120% del R mínimo) que coincidan con pendiente > 4% en planta. (2) Acuerdos convexos con Kv < 1.2 × Kv mínimo que coincidan con curvas en planta de radio reducido (coordinación planta-alzado deficiente). (3) Curvas de radio mínimo precedidas de tangentes largas (> 300 m) sin transición de velocidad. (4) Tramos con desmonte máximo (> 12 m) en curvas con peralte máximo. (5) Cruces nivel terreno-rasante en el interior de curvas. Para cada punto crítico: PK exacto, descripción de los factores concurrentes, nivel de riesgo (ALTO/MEDIO) y recomendación de corrección.'},
+  {cat:'report',icon:'📄',title:'Informe de trazado',desc:'Memoria técnica de geometría según estructura normativa',prompt:'Genera una memoria técnica de geometría del trazado siguiendo la estructura de la Instrucción 3.1-IC. El informe debe incluir: (1) OBJETO Y ÁMBITO: descripción del proyecto, velocidad de proyecto adoptada, tipo de vía y categoría de terreno. (2) TRAZADO EN PLANTA: tabla de elementos con PK, tipo, longitud, radio/parámetro A, tabla resumen de parámetros máximos/mínimos, verificación normativa. (3) TRAZADO EN ALZADO: tabla de PIVs, tabla de acuerdos verticales con Kv y verificación de visibilidades. (4) COORDINACIÓN PLANTA-ALZADO: análisis de coincidencia de puntos singulares. (5) CONCLUSIÓN: listado de incumplimientos detectados clasificados por severidad. Formato: secciones numeradas, tablas con encabezados claros, valores normativos entre paréntesis para comparación directa.'},
+  {cat:'report',icon:'⚖️',title:'Balance de tierras',desc:'Cálculo de volúmenes y análisis de transporte óptimo',prompt:'Genera el balance de tierras completo del proyecto. Para cada corredor: (1) Tabla de volúmenes por estaciones de 20 m con columnas: PK, Área desmonte (m²), Área terraplén (m²), Volumen desmonte acumulado (m³), Volumen terraplén acumulado (m³). (2) Aplica coeficientes de paso según tipo de material (roca: 1.25–1.35, tierra: 1.10–1.20, tránsito: 1.00) e indica qué coeficiente se ha aplicado y por qué. (3) Calcula: volumen neto de desmonte en banco, volumen neto de terraplén en compacto, excedente o déficit total. (4) Dibuja el diagrama de Brückner indicando las zonas de compensación, zonas de préstamo y zonas de vertedero con sus PKs. (5) Estima la distancia media de transporte (DMT) en metros. (6) Señala si hay zonas con materiales inadecuados para terraplén que deban ir a vertedero independientemente del balance.'},
+  {cat:'report',icon:'💧',title:'Informe hidráulico',desc:'Análisis de cuencas, caudales y dimensionamiento de drenaje',prompt:'Genera el informe hidráulico del trazado aplicando el método racional (Q = C·I·A/3.6). Para cada cuenca interceptada por el trazado: (1) Identifica la cuenca: PK de intersección, superficie (ha), longitud del cauce principal (m), desnivel (m), tiempo de concentración Tc (fórmula de Témez). (2) Calcula la intensidad de lluvia I(T,Tc) para periodos de retorno T=10, T=100 y T=500 años usando la instrucción 5.2-IC o los datos de la zona ISO-Yetas. (3) Aplica coeficiente de escorrentía C según uso del suelo y tipo de suelo (grupo hidrológico). (4) Dimensiona la obra de drenaje transversal: tipo recomendado (caño/marco/pontón), sección mínima requerida, verificación de velocidad de lámina libre (1.5–4.0 m/s). (5) Para drenaje longitudinal: verifica capacidad de cunetas triangulares/trapezoidales en los tramos con mayor aportación. Tabla resumen con una fila por obra de drenaje.'},
+  {cat:'report',icon:'📊',title:'Mediciones por tramos',desc:'Cuadro de precios y mediciones para presupuesto',prompt:'Genera el cuadro de mediciones de movimiento de tierras estructurado para presupuesto. Para cada corredor y cada región: (1) Tabla con estaciones cada 20 m: PK, cota terreno, cota rasante, área de desmonte (m²) diferenciada por tipo de material (tierra vegetal / tierra / tránsito / roca), área de terraplén (m²). (2) Suma parcial de volúmenes por tramos de 500 m. (3) Resumen final con: m³ de despeje y desbroce (m²), m³ de excavación en tierra, m³ de excavación en roca, m³ de terraplén con material de la traza, m³ de terraplén con préstamo exterior (si hay déficit), m³ a vertedero. (4) Incluye una línea de capa de forma / explanada mejorada si el corredor la tiene definida. Formato exportable, con columnas claramente nombradas y totales en negrita.'},
+  {cat:'analysis',icon:'📏',title:'Distancias de visibilidad',desc:'Verificación estación a estación de Dp y Dav normativa',prompt:'Realiza el análisis de distancias de visibilidad para todas las alineaciones. Parámetros de cálculo: altura de ojo del conductor h1 = 1.10 m, altura de obstáculo h2 = 0.20 m (parada) y h2 = 1.10 m (adelantamiento). Para cada PK a intervalos de 50 m: (1) Calcula la Dp requerida según la Vp (tabla 3.1 de 3.1-IC) y la Dp disponible en perfil longitudinal (acuerdo convexo limitante o intersección con terreno). (2) Calcula la Dav requerida y la disponible en planta (obstáculo lateral en curva, margen libre mínimo). (3) Clasifica cada estación como: CUMPLE, NO CUMPLE – PARADA, NO CUMPLE – ADELANTAMIENTO. (4) Para tramos no cumplimiento de adelantamiento: indica si se puede resolver con señalización de prohibición o si requiere modificación geométrica. Genera tabla y resumen de porcentaje de trazado con visibilidad deficiente.'},
+  {cat:'analysis',icon:'🌧️',title:'Análisis de drenaje longitudinal',desc:'Puntos bajos, pendiente transversal y capacidad de cunetas',prompt:'Analiza el sistema de drenaje longitudinal del trazado: (1) Localiza todos los puntos bajos del perfil de rasante (PKs donde la pendiente cambia de negativa a positiva): indica PK exacto, cota, pendientes de entrada y salida, y si existe obra de drenaje transversal asociada en ese punto. (2) Verifica que la pendiente mínima longitudinal en todo el trazado sea ≥ 0.5% (norma de drenaje mínimo). Señala tramos que no la cumplen. (3) Para cunetas revestidas triangulares tipo: calcula la longitud máxima de cuneta antes de desagüe (limitada por velocidad máxima 4.0 m/s y capacidad de la sección), indica si los desagües están bien espaciados. (4) Verifica peraltes mínimos en rectas (≥ 2%) para garantizar drenaje transversal. (5) Identifica zonas en terraplén donde la berma puede ser insuficiente para recoger el agua de la plataforma. Genera tabla de incidencias con PK y corrección propuesta.'},
+  {cat:'analysis',icon:'🔀',title:'Coordinación planta-alzado',desc:'Verificación de coherencia estética y funcional entre planta y perfil',prompt:'Realiza el análisis de coordinación planta-alzado según los criterios de la Instrucción 3.1-IC (apartado 5.4) y las buenas prácticas de trazado. Verifica: (1) COINCIDENCIA DE PUNTOS SINGULARES: los PIVs de acuerdos convexos deben coincidir con el interior de curvas en planta de radio ≥ Rmín×1.5, no en rectas ni en puntos de tangencia. Lista cada PIV con el elemento de planta en el que cae. (2) EFECTO ÓPTICO: detecta curvas verticales cortas (Kv < 1.5×Kv mín) sobre rectas en planta largas (> 500 m) que provoquen efecto de "hundimiento" aparente. (3) CURVAS EN S: identifica alineamientos donde una curva convexa corta precede a una cóncava sin transición suficiente (distancia < Dp+30 m). (4) PROPORCIONALIDAD: verifica que la curvatura en planta y en alzado sean coherentes. Clasifica cada incidencia como estética, funcional o de seguridad.'},
+  {cat:'param',icon:'🏷️',title:'Parámetros de diseño por alineación',desc:'Ficha técnica completa de criterios de diseño adoptados',prompt:'Para cada alineación del proyecto, genera una ficha técnica de parámetros de diseño que incluya: (1) Velocidad de proyecto Vp (km/h) y velocidad de operación V85 estimada. (2) Tipo de vía y categoría (autopista / carretera convencional / vía urbana / vía de servicio). (3) Criterio normativo aplicado y versión (3.1-IC 2016 / N500 Noruega / EN 13803 / otro). (4) Parámetros límite adoptados: R mínimo absoluto y normal, pendiente máxima, Kv mínimo convexo y cóncavo, Dp mínima, ancho de carril, arcén. (5) Archivo de criterios de diseño de Civil 3D asociado (Design Criteria File .xml) y si está correctamente vinculado. (6) Superelevación: método de cálculo, valor máximo adoptado (4%, 6% u 8%), longitud de transición calculada vs. longitud de clotoide disponible. Presenta en formato de ficha técnica, una por alineación.'},
+  {cat:'param',icon:'📝',title:'Calidad de datos de superficies',desc:'Diagnóstico de fiabilidad y errores en datos de terreno',prompt:'Realiza un diagnóstico de calidad de datos para todas las superficies del proyecto. Para cada superficie: (1) ORIGEN DE DATOS: tipo y fecha del levantamiento si está documentado, sistema de coordenadas, precisión vertical estimada. (2) DENSIDAD DE PUNTOS: número de puntos por hectárea, distribución (uniforme/irregular), zonas con baja densidad que afecten a la fiabilidad del modelo. (3) ERRORES DETECTADOS: triángulos con pendiente > 45° (posibles picos o errores), puntos aislados con cota anómala (> 3σ de la media), breaklines cruzadas o inconsistentes, zonas con cotas interpoladas sobre huecos de datos > 50 m. (4) CONSISTENCIA ENTRE SUPERFICIES: si hay varias superficies (terreno natural, rasante, subrasante), verifica que los límites espaciales se solapan correctamente. (5) Recomendaciones de edición para mejorar la fiabilidad antes de usarla en el cálculo de volúmenes. Tabla de incidencias con coordenadas aproximadas.'},
+]
+var _localRvt=[
+  {cat:'model',icon:'🏢',title:'Diagnóstico de niveles',desc:'Inventario de niveles con cotas, usos y disciplinas',prompt:'Lista todos los niveles del modelo de Revit con la siguiente información por cada uno: nombre, elevación (m sobre referencia de proyecto), elevación absoluta si está definida, disciplina asignada (arquitectura / estructura / MEP), número de vistas de planta asociadas y si tiene vista de planta activa. Detecta: niveles sin ningún elemento asignado, niveles duplicados o con diferencia de cota < 0.10 m entre sí (posible error), y verifica que la secuencia de cotas es ascendente coherente. Indica la cota ±0.00 del proyecto y si coincide con un nivel real o es un offset. Genera tabla ordenada de abajo a arriba.'},
+  {cat:'model',icon:'🚪',title:'Inventario por categorías',desc:'Conteo y clasificación completa de todos los elementos',prompt:'Genera un inventario completo de todos los elementos del modelo de Revit, agrupados por categoría. Para cada categoría indica: nombre de la categoría, número total de instancias, número de tipos/familias distintos usados, y si los elementos están correctamente asignados a un nivel (detecta elementos "sin nivel" o flotantes). Ordena el resultado de mayor a menor número de instancias. Separa claramente: categorías de modelo (muros, forjados, pilares, puertas, etc.) de categorías de anotación (cotas, textos, etiquetas). Indica el total general de elementos del modelo y el total de elementos de anotación. Señala categorías con tipos cargados pero sin instancias colocadas (familias sin usar que aumentan el tamaño del archivo).'},
+  {cat:'model',icon:'🏠',title:'Habitaciones y áreas',desc:'Cuadro de superficies por uso, nivel y compartimentación',prompt:'Genera el cuadro completo de habitaciones y áreas del modelo. Para cada habitación indica: nombre, número de habitación (si existe), nivel, área útil (m²), perímetro (m), altura libre (m) si está definida, y el departamento o uso asignado. Agrupa por nivel y calcula: área útil total por nivel, área de circulaciones por nivel, ratio de eficiencia (área útil / área construida bruta). Detecta: habitaciones sin nombre o con nombre genérico (Room), habitaciones con área < 1 m² (posibles errores de encierro), habitaciones redundantes superpuestas, y zonas del modelo sin habitación definida en plantas habitables. Genera tabla y resumen ejecutivo de superficies por uso.'},
+  {cat:'model',icon:'📐',title:'Dimensiones y envolvente',desc:'Dimensiones generales, volumen y orientación del edificio',prompt:'Analiza las dimensiones generales del modelo de Revit. Calcula: (1) Envolvente del edificio: dimensiones en X, Y (m) y altura total (m) desde cota ±0.00 hasta el punto más alto del modelo. (2) Superficie de parcela o huella en planta (m²) si hay un elemento de suelo o límite de propiedad. (3) Superficie construida bruta por nivel (m²) y total. (4) Superficie de fachada total (m²) desglosada por orientación (norte, sur, este, oeste) si los muros tienen orientación definida. (5) Volumen total construido (m³) si los elementos volumétricos están correctamente cerrados. (6) Orientación del edificio: ángulo del eje principal respecto al norte de proyecto. Advierte si el norte de proyecto no está configurado. Presenta los datos en ficha técnica concisa.'},
+  {cat:'model',icon:'🔍',title:'Auditoría de vistas',desc:'Inventario de vistas, hojas y estado de documentación',prompt:'Realiza una auditoría completa de las vistas del modelo de Revit. Organiza la información en tres bloques: (1) VISTAS DE TRABAJO: lista todas las vistas no colocadas en hoja (plantas, secciones, alzados, 3D) indicando nombre, nivel asociado, escala, disciplina y si tienen override gráfico activo o filtros aplicados. Detecta vistas duplicadas o con nombres genéricos. (2) HOJAS: lista todas las hojas con número, nombre, vistas que contienen y revisión actual. Detecta hojas vacías o con vistas duplicadas. (3) LEYENDAS Y PLANILLAS: lista las leyendas y planillas/schedules existentes. Indica cuáles no están colocadas en ninguna hoja. Genera un resumen del estado de documentación: % de vistas colocadas en hoja, número de hojas por disciplina.'},
+  {cat:'bim',icon:'🧱',title:'Análisis de tipos de muro',desc:'Composición, espesores y propiedades térmicas de muros',prompt:'Analiza en detalle todos los tipos de muro del modelo de Revit que tienen al menos una instancia colocada. Para cada tipo indica: nombre completo, espesor total (mm), capas que lo componen (material, función, espesor de cada capa), función del muro (exterior/interior/retención/sótano/cortina), longitud total de ese tipo en el modelo (m), área total (m²). Calcula: resistencia térmica total R (m²K/W) y transmitancia U (W/m²K) si los materiales tienen conductividad definida. Detecta: tipos de muro con capas sin material asignado, tipos con el mismo espesor total pero distinta composición (posible duplicado), y muros colocados en categoría incorrecta. Tabla comparativa ordenada por área descendente.'},
+  {cat:'bim',icon:'🪵',title:'Inventario de materiales',desc:'Materiales usados, propiedades físicas y térmicas definidas',prompt:'Genera un inventario completo de los materiales utilizados en el modelo de Revit. Para cada material que aparece en al menos un tipo de familia: nombre, clase de material (concreto/acero/madera/vidrio/aislamiento/otro), si tiene propiedades de identidad completas (descripción, fabricante, modelo, URL), si tiene propiedades físicas definidas (densidad kg/m³, módulo de elasticidad), si tiene propiedades térmicas definidas (conductividad W/mK, calor específico, emisividad), y si tiene material de renderizado asignado. Detecta materiales con nombre genérico ("Material", "Default", "By Category"), materiales duplicados con distinto nombre pero mismas propiedades, y elementos que usan "By Category" en lugar de un material explícito. Lista de materiales sin usar cargados en el proyecto.'},
+  {cat:'bim',icon:'📊',title:'Cuadro de superficies por uso',desc:'Análisis de programa funcional y ratios de eficiencia',prompt:'Genera el cuadro de superficies funcional del edificio, agrupando las habitaciones según su uso. Calcula para cada categoría de uso (oficina, sala de reuniones, circulación, aseos, instalaciones, archivo, etc.): número de recintos, superficie útil total (m²), porcentaje sobre el total útil, y superficie media por recinto. Calcula indicadores globales: (1) Ratio de eficiencia: superficie útil / superficie construida bruta. (2) Ratio de circulación: m² de circulación / m² totales. (3) Superficie por puesto de trabajo si hay habitaciones tipo "Oficina" (asumiendo 10 m²/persona como referencia). (4) Verifica cumplimiento mínimo de superficies en servicios: número de aseos por planta y superficie. Presenta gráfico de tabla con totales por nivel y total general.'},
+  {cat:'bim',icon:'🔩',title:'Estructura — inventario y revisión',desc:'Pilares, vigas, forjados y cimentación con secciones y materiales',prompt:'Analiza todos los elementos estructurales del modelo de Revit. Para cada categoría: (1) PILARES ESTRUCTURALES: lista de tipos con sección (dimensiones o perfil normalizado), material, altura libre media, número de instancias por nivel, y orientación predominante. (2) VIGAS/JÁCENAS: tipos con perfil, material, longitud total en el modelo (m), luz máxima encontrada. (3) FORJADOS: tipos con espesor total, composición de capas, superficie por nivel (m²). (4) CIMENTACIÓN: zapatas, losas de cimentación, vigas de atado — tipos y dimensiones. Detecta: elementos estructurales sin material asignado, pilares con altura mayor al doble del entresuelo (posible error de nivel), vigas con luz > 12 m sin tipo de viga específico para grandes luces, forjados sin unión a muros o pilares portantes. Genera tabla resumen y señala incidencias.'},
+  {cat:'bim',icon:'💡',title:'Sistemas MEP — diagnóstico',desc:'Inventario de sistemas, conectores sin conectar y coherencia',prompt:'Analiza los sistemas MEP del modelo de Revit. Para cada disciplina: (1) FONTANERÍA (Plumbing): sistemas definidos (agua fría, agua caliente, saneamiento), número de tuberías por sistema con diámetro predominante, número de aparatos sanitarios conectados vs sin conectar. Detecta tuberías sin sistema asignado. (2) ELECTRICIDAD: cuadros eléctricos presentes, número de circuitos, luminarias con circuito asignado vs sin asignar, categoría de los equipos eléctricos. (3) CLIMATIZACIÓN/HVAC: sistemas de aire definidos, conductos por sistema con sección y forma predominante, terminales de aire conectados vs sin conectar, equipos de climatización. Para todos los sistemas: detecta conectores abiertos (sin conectar), terminales huérfanas y equipos sin sistema. Genera tabla de resumen por sistema con % de elementos correctamente conectados.'},
+  {cat:'report',icon:'📄',title:'Memoria BIM del proyecto',desc:'Informe ejecutivo completo del modelo para entrega o revisión',prompt:'Genera una memoria técnica BIM completa del modelo de Revit, estructurada para entrega a cliente o dirección facultativa. Incluye: (1) DATOS DEL PROYECTO: nombre, número de proyecto, versión del modelo, fecha de última modificación, autor. (2) RESUMEN DEL MODELO: número de niveles, superficie construida por nivel y total, usos principales. (3) CUANTIFICACIÓN: tabla de elementos principales por categoría (muros m², forjados m², pilares ud., puertas ud., ventanas ud., luminarias ud.). (4) ESTADO DE LA DOCUMENTACIÓN: hojas generadas, estado de revisiones. (5) INCIDENCIAS DETECTADAS: elementos sin clasificar, parámetros vacíos, elementos fuera de nivel. (6) ÍNDICE DE CALIDAD BIM: porcentaje de elementos correctamente clasificados, con material asignado y con parámetros de identidad completos. Formato: secciones numeradas, tablas con totales, conclusiones al final.'},
+  {cat:'report',icon:'📋',title:'Mediciones por nivel',desc:'Cuantificación para presupuesto nivel a nivel',prompt:'Genera las mediciones del modelo de Revit organizadas por nivel, para su uso directo en presupuesto. Para cada nivel y cada categoría principal, extrae: (1) OBRA CIVIL: m³ de excavación bajo solera (si hay sótano), m³ de hormigón en pilares/losas/muros de hormigón. (2) CERRAMIENTOS Y PARTICIONES: m² de muro exterior por tipo, m² de partición interior por tipo, ml de trasdosados. (3) CARPINTERÍA: número de puertas por tipo (hoja/doble/corredera/cortafuego), número de ventanas por tipo con superficie (m²) y factor de vidrio. (4) ACABADOS: m² de suelo por material, m² de techo por tipo. (5) INSTALACIONES: número de luminarias por tipo, número de aparatos sanitarios por tipo, número de difusores/rejillas. Para cada partida: descripción, unidad de medición, cantidad. Genera tabla lista para importar a un generador de presupuesto.'},
+  {cat:'report',icon:'🏗️',title:'Control de calidad BIM (QA)',desc:'Auditoría sistemática según estándares LOD y BIM Execution Plan',prompt:'Realiza una auditoría de calidad BIM completa del modelo de Revit según los criterios habituales de un BIM Execution Plan. Verifica los siguientes aspectos y da un estado (OK / ATENCIÓN / ERROR) con conteo de incidencias: (1) NOMENCLATURA: vistas, hojas y familias siguen convención de nombres del proyecto (detecta nombres genéricos como "Room", "Level 1", "Family 1"). (2) ELEMENTOS SIN NIVEL: instancias no asignadas a ningún nivel de proyecto. (3) PARÁMETROS DE IDENTIDAD: elementos sin "Descripción", "Fabricante" o "Código" en categorías que lo requieren por el BEP. (4) ELEMENTOS FUERA DE PLANTILLA: tipos de familia no cargados desde la biblioteca estándar del proyecto (identifica familias in-place). (5) GRUPOS: grupos no nombrados o grupos con modificaciones locales. (6) VÍNCULOS: archivos vinculados con estado "no encontrado" o "fuera de fecha". Tabla resumen con semáforo de estado por criterio.'},
+  {cat:'report',icon:'📦',title:'Preparación para exportación IFC',desc:'Verificación previa y mapeo de clases IFC por categoría',prompt:'Prepara el modelo de Revit para exportación a IFC 2x3 o IFC4 (indica cuál se requiere). Genera un informe de preparación con los siguientes bloques: (1) MAPEO DE CATEGORÍAS: para cada categoría de Revit con instancias, indica la clase IFC asignada actualmente y si es correcta o requiere ajuste manual. Detecta categorías mapeadas a IfcBuildingElementProxy (mapeo genérico que pierde información). (2) PROPIEDADES IFC: elementos sin GUID estable, sin nombre IFC, sin clasificación cuando el BEP lo requiere. (3) GEOMETRÍA: familias in-place (exportan mal a IFC), elementos con geometría no válida (cero volumen), muros o forjados con capas de espesor cero. (4) NIVELES: verifica que todos los niveles del modelo tienen BuildingStorey asignado. (5) RECOMENDACIONES ordenadas por impacto: qué corregir antes de exportar para obtener un IFC con máxima fidelidad de datos.'},
+  {cat:'param',icon:'🏷️',title:'Auditoría de parámetros',desc:'Inventario de parámetros de proyecto, compartidos y de familia',prompt:'Realiza una auditoría completa de los parámetros del modelo de Revit. Organiza en tres grupos: (1) PARÁMETROS DE PROYECTO: nombre, tipo de dato (texto/número/sí-no/longitud/área/etc.), categorías a las que aplica, valor actual si es un parámetro de información del proyecto. Detecta parámetros de proyecto sin valor definido. (2) PARÁMETROS COMPARTIDOS: lista de parámetros compartidos vinculados al modelo, indicando nombre, GUID, tipo de dato, grupo y categorías. Detecta parámetros compartidos cargados pero sin instancias que los usen. (3) PARÁMETROS DE FAMILIA: los parámetros más relevantes que las familias exponen como parámetros de tipo o instancia — agrupa por categoría de familia. Detecta parámetros con nombres duplicados entre grupos distintos que puedan causar confusión en exportación IFC.'},
+  {cat:'param',icon:'🔎',title:'Parámetros vacíos críticos',desc:'Detección de campos obligatorios sin rellenar por categoría',prompt:'Identifica todos los elementos del modelo que tienen parámetros críticos sin rellenar, organizados por categoría. Para cada categoría, define los parámetros que deberían estar rellenos según BIM estándar: (1) MUROS: Descripción, Material principal, Función (exterior/interior), Restricciones de nivel base y nivel superior. (2) FORJADOS: Descripción, Nivel, Tipo de estructura. (3) PUERTAS y VENTANAS: Marca (ID), Fabricante, Modelo, Anchura, Altura, Resistencia al fuego (si aplica). (4) PILARES ESTRUCTURALES: Material, Sección, Nivel base y nivel superior. (5) HABITACIONES: Nombre, Número, Departamento, Acabado suelo, Acabado techo, Altura de habitación. Para cada incidencia: categoría, nombre del tipo, ID del elemento, parámetro vacío. Genera tabla y cuenta total de incidencias por categoría.'},
+  {cat:'param',icon:'✏️',title:'Parámetros por familia',desc:'Ficha técnica de parámetros de tipo e instancia por familia',prompt:'Para la familia o categoría de elementos que se especifique (si no se indica, analiza las 5 categorías con más instancias), genera una ficha técnica de parámetros. Para cada tipo de familia: (1) PARÁMETROS DE TIPO: nombre del parámetro, valor actual, tipo de dato, grupo de parámetro, si es compartido y su GUID. (2) PARÁMETROS DE INSTANCIA: nombre, tipo de dato, grupo, descripción si tiene. (3) Indica cuáles parámetros están vacíos en el tipo y cuáles tienen valores distintos entre instancias del mismo tipo (parámetros de instancia con alta variabilidad). (4) Compara la ficha entre los distintos tipos de esa familia y señala parámetros con valores inconsistentes entre tipos similares. Formato: tabla por familia con filas = parámetros, columnas = tipos.'},
+  {cat:'param',icon:'📝',title:'Extracción de valores por parámetro',desc:'Tabla de un parámetro específico en todos los elementos',prompt:'Extrae los valores del parámetro [INDICA EL NOMBRE DEL PARÁMETRO] de todos los elementos del modelo que lo tengan disponible. Organiza los resultados en una tabla con columnas: ID de elemento, categoría, familia/tipo, nivel, valor del parámetro. Adicionalmente: (1) Genera un resumen estadístico: número de elementos con el parámetro relleno, número con valor vacío o nulo, valores únicos distintos y frecuencia de cada valor. (2) Si el parámetro es numérico: valor mínimo, máximo, media y suma total. (3) Detecta valores anómalos: texto en campo numérico, valores fuera de rango esperado, o valores con formato inconsistente. (4) Genera una versión de la tabla lista para exportar a CSV, con cabeceras en la primera fila.'},
+  {cat:'edit',icon:'🆕',title:'Crear habitación con datos completos',desc:'Crea un recinto con nombre, número, nivel y parámetros de uso',prompt:'Antes de crear ninguna habitación, realiza los siguientes pasos: (1) Lista todos los niveles del modelo con su cota para que pueda confirmar en cuál crearla. (2) Lista las habitaciones ya existentes en ese nivel con su nombre y número para evitar duplicados. (3) Confirma conmigo: nombre de la habitación, número de habitación, nivel, departamento/uso y acabados (suelo y techo) si los tienes definidos como parámetros. Solo cuando yo confirme todos los datos, crea la habitación con todos los parámetros de identidad rellenos. Tras crearla, verifica que el área es razonable (> 1 m²) y que el perímetro se ha cerrado correctamente.',write:true},
+  {cat:'edit',icon:'🧱',title:'Crear muro con tipo y datos de proyecto',desc:'Añade un muro verificando tipo, nivel y dimensiones antes de ejecutar',prompt:'Antes de crear ningún muro, necesito que: (1) Listes todos los tipos de muro disponibles en el proyecto con su espesor y descripción, para que yo elija el correcto. (2) Listes los niveles del modelo para confirmar nivel base y nivel de restricción superior. (3) Me preguntes las coordenadas de inicio y fin del muro (o la longitud y orientación si trabajo en términos relativos). (4) Confirmes si el muro es portante (estructural) o de partición, para asignar la función correcta. Solo cuando yo apruebe el resumen de datos (tipo, longitud, nivel base, nivel superior, función), procede a crear el muro. Tras crearlo, verifica que se ha unido correctamente a los elementos adyacentes y que no hay advertencias de solape.',write:true},
+  {cat:'edit',icon:'📏',title:'Crear nivel con vistas asociadas',desc:'Añade un nivel de planta con su vista de planta y sección correctas',prompt:'Para añadir un nuevo nivel al proyecto de Revit, realiza primero los pasos de verificación: (1) Lista todos los niveles existentes con sus cotas (m) para que yo pueda indicar la posición del nuevo nivel sin conflictos. (2) Pregúntame: nombre del nuevo nivel, cota sobre el ±0.00 del proyecto, disciplina (Arquitectura / Estructura / MEP). (3) Una vez creado el nivel: genera automáticamente una vista de planta de suelo asociada con el nombre y la plantilla de vista estándar del proyecto. Si existen plantillas de vista configuradas, usa la que corresponda a la disciplina. (4) Verifica que el nivel no queda a menos de 0.10 m de otro nivel existente. (5) Informa del resultado: cota creada, nombre, y vistas generadas.',write:true},
+  {cat:'edit',icon:'🏷️',title:'Actualizar parámetros en lote',desc:'Modifica un parámetro en múltiples elementos con previsualización previa',prompt:'Para actualizar parámetros en lote, sigue este proceso de seguridad: (1) Pregúntame qué parámetro quiero modificar y en qué categoría de elementos. (2) ANTES de modificar nada, muéstrame una tabla con: ID, tipo, nivel y valor actual del parámetro en todos los elementos afectados. Quiero ver exactamente qué voy a cambiar. (3) Pregúntame si quiero aplicar el mismo valor a todos o si hay criterios de filtrado. (4) Muéstrame el resumen final: "Se modificarán X elementos, parámetro Y, valor nuevo: Z". Espera mi confirmación explícita. (5) Solo entonces ejecuta el cambio. (6) Tras la modificación, genera una tabla de verificación mostrando los elementos actualizados con el nuevo valor para confirmar que todo fue correcto.',write:true},
+  {cat:'edit',icon:'🚪',title:'Colocar puerta o ventana',desc:'Inserta carpintería verificando tipo, dimensiones y muro anfitrión',prompt:'Para colocar una puerta o ventana de forma correcta, sigue estos pasos: (1) Lista todas las familias de puertas (o ventanas) cargadas en el proyecto, indicando nombre del tipo, anchura, altura, material del marco y si tiene EI (resistencia al fuego) definida. (2) Pregúntame qué tipo de carpintería quiero colocar. Si el tipo requerido no está cargado, indícalo y propón el tipo más similar disponible. (3) Lista los muros del nivel seleccionado donde sería válido colocar ese elemento. (4) Confirma conmigo: tipo seleccionado, muro anfitrión, posición aproximada y nivel. (5) Coloca el elemento y verifica que no genera advertencias de solapamiento ni que queda parcialmente fuera del muro.',write:true},
+  {cat:'edit',icon:'🏷️',title:'Etiquetar elementos automáticamente',desc:'Coloca tags con verificación de vistas y elementos sin etiquetar',prompt:'Para etiquetar elementos automáticamente, primero necesito que: (1) Listes las vistas de planta disponibles del proyecto con el número de elementos de la categoría que quiero etiquetar en cada una. (2) Pregúntame en qué vista(s) quiero colocar las etiquetas y qué categoría (habitaciones, puertas, ventanas, muros, pilares). (3) Verifica si existe una familia de tag cargada para esa categoría; si no existe, indícamelo antes de proceder. (4) Muéstrame cuántos elementos de esa categoría hay en la vista seleccionada y cuántos ya tienen etiqueta (para evitar duplicados). (5) Tras etiquetar, informa del resultado: número de tags colocados, número de elementos que no se pudieron etiquetar y motivo.',write:true},
+  {cat:'edit',icon:'🗑️',title:'Eliminar elementos con análisis de impacto',desc:'Borrado seguro con detección de dependencias antes de ejecutar',prompt:'Para eliminar elementos del modelo de forma segura, sigue este protocolo: (1) Pregúntame qué categoría o tipo de elementos quiero eliminar y si hay un filtro adicional (por nivel, por fase, por valor de parámetro). (2) ANTES de eliminar: lista todos los elementos que se verían afectados con ID, tipo, nivel y nombre si procede. (3) Analiza dependencias: ¿alguno de estos elementos tiene otros elementos que dependen de él y que también se eliminarían en cascada? Lista esos elementos dependientes explícitamente. (4) Genera un resumen de impacto: "Se eliminarán X elementos directamente y Y elementos dependientes". Espera mi confirmación explícita con "Confirmar eliminación". (5) Solo entonces ejecuta. (6) Tras eliminar, verifica si quedan advertencias en el modelo relacionadas con la operación.',write:true},
+  {cat:'coord',icon:'🛣️',title:'Coherencia de cotas rasante–Revit',desc:'Comparación sistemática de cotas entre modelos Civil 3D y Revit',prompt:'Realiza una comparación sistemática entre las cotas de rasante del proyecto de Civil 3D y los niveles del modelo de Revit. Para cada nivel de Revit que tenga correspondencia física con la obra (planta baja, semisótano, etc.): (1) Indica la cota del nivel Revit en coordenadas absolutas del proyecto (m.s.n.m. o cota de referencia compartida). (2) Extrae del perfil de Civil 3D la cota de rasante en el PK de la estructura (indica qué PK usar si hay varias alineaciones). (3) Calcula la diferencia (m) y clasifica: OK (< 0.05 m), ADVERTENCIA (0.05–0.15 m), ERROR (> 0.15 m). (4) Si hay desviación: indica si el punto de origen compartido (Survey Point y Project Base Point) está correctamente configurado en Revit. (5) Genera tabla de comparación con columnas: Nivel Revit, Cota Revit, PK Civil 3D, Cota rasante, Diferencia, Estado.'},
+  {cat:'coord',icon:'🏗️',title:'Interferencias estructura–infraestructura',desc:'Detección de conflictos entre elementos Revit y geometría de Civil 3D',prompt:'Analiza los posibles conflictos geométricos entre los elementos del modelo de Revit y la infraestructura del proyecto de Civil 3D. Para estructuras sobre o junto al trazado: (1) GÁLIBOS: verifica que la cara inferior de vigas/losas del modelo de Revit está por encima de la envolvente de gálibo del trazado (altura libre mínima 5.50 m sobre vía o la que marque la normativa). Indica la diferencia disponible en el punto más crítico (PK). (2) INTERFERENCIAS CON TALUDES: comprueba que los elementos de cimentación y muros de contención no penetran en el perfil teórico del talud de Civil 3D. (3) INTERFERENCIAS CON REDES: verifica que las cimentaciones del modelo de Revit no coinciden en cota con tuberías o pozos de la red de Civil 3D. Para cada interferencia: descripción, elementos afectados, severidad y corrección propuesta.'},
+  {cat:'coord',icon:'📏',title:'Alineación de ejes y sistema de coordenadas',desc:'Verificación del punto de origen, norte de proyecto y transformación de coordenadas',prompt:'Verifica la alineación geométrica entre el modelo de Revit y el proyecto de Civil 3D. Comprueba: (1) ORIGEN DEL PROYECTO: extrae las coordenadas del Project Base Point y del Survey Point en Revit. Compáralas con el origen del sistema de coordenadas del proyecto Civil 3D (coordenadas UTM o locales). La diferencia debe ser < 0.01 m. (2) ÁNGULO NORTE: verifica el ángulo de rotación entre el norte de proyecto Revit y el norte del sistema de coordenadas de Civil 3D. Una discrepancia indica que la vinculación IFC/DWG se hizo sin transformación correcta. (3) ESCALA: confirma que ambos modelos trabajan en las mismas unidades (metros) y que no hay factores de escala aplicados en el vínculo. (4) Si hay algún archivo DWG o IFC vinculado de Civil 3D en Revit: indica el tipo de vínculo (origen a origen / centro a centro / manual) y si la posición es correcta. Genera informe de estado con valores numéricos de cada verificación.'},
+  {cat:'coord',icon:'🌊',title:'Redes bajo rasante y reservas de paso',desc:'Cotas de instalaciones enterradas vs. topografía de Civil 3D',prompt:'Analiza las instalaciones enterradas o bajo rasante del modelo de Revit en relación con la topografía del proyecto de Civil 3D. Para cada red de instalaciones bajo el nivel ±0.00: (1) Identifica tuberías, colectores o conductos que discurren por debajo de la cota de rasante exterior: indica sistema, diámetro, cota de clave (tapa superior de la tubería) y cota de solera (fondo interior). (2) Para cada tramo, compara la cota de clave con la cota de rasante de Civil 3D en ese punto: calcula el recubrimiento real (m). Verifica que el recubrimiento mínimo sea ≥ 1.00 m para tuberías bajo vial y ≥ 0.60 m bajo zonas peatonales o ajardinadas. (3) Detecta cruces entre redes de diferentes sistemas (saneamiento vs. abastecimiento): verifica separación mínima vertical ≥ 0.50 m, con abastecimiento siempre por encima. (4) Identifica reservas de paso (sleeves) en muros y forjados de sótano: verifica que tienen cota coherente con la red que los atraviesa. Genera tabla de incidencias y mapa de conflictos por nivel.'},
+  {cat:'coord',icon:'🔗',title:'Informe de coordinación interdisciplinar',desc:'Detección de conflictos geométricos entre Civil 3D y Revit con plan de resolución',prompt:'Genera un informe de coordinación técnica entre el modelo de Revit y el proyecto de Civil 3D, estructurado para presentar en reunión de coordinación BIM. El informe debe incluir: (1) RESUMEN EJECUTIVO: número total de conflictos detectados clasificados por severidad (CRÍTICO / MAYOR / MENOR) y por disciplina afectada. (2) TABLA DE CONFLICTOS: para cada conflicto — ID, tipo (choque geométrico / discrepancia de cota / inconsistencia de datos / reserva de paso faltante), elemento Revit afectado (ID y tipo), elemento Civil 3D afectado (nombre y PK), descripción técnica del conflicto, y propuesta de resolución. (3) CONFLICTOS CRÍTICOS ampliados: para los CRÍTICOS, añade una descripción detallada del impacto en obra y la resolución recomendada con responsable sugerido. (4) ESTADO DE COORDINACIÓN: semáforo general por disciplina. Formato listo para exportar a registro de incidencias BCF o similar.'},
+]
+var _localBns=[
+  // CONSULTA IFC
+  {cat:'query',icon:'🔍',title:'Vista general del modelo IFC',desc:'Diagnóstico completo: esquema, jerarquía espacial, unidades y conteo por clase',prompt:'Ejecuta get_ifc_scene_overview con include_selection_summary=False. Con los datos obtenidos, genera un diagnóstico estructurado del modelo IFC que incluya: (1) IDENTIDAD: nombre del proyecto, GlobalId, esquema IFC (IFC2X3/IFC4/IFC4X3), unidades de trabajo (longitud, área, volumen, ángulo). (2) JERARQUÍA ESPACIAL: árbol completo desde IfcProject hasta el nivel más bajo, indicando el nombre y GlobalId de cada nodo y el número de elementos contenidos en cada nivel. (3) INVENTARIO DE CLASES: tabla ordenada de mayor a menor con todas las clases IFC presentes en el modelo y su conteo. Calcula el total general de elementos. (4) ANÁLISIS: identifica qué tipo de proyecto es (edificación, infraestructura lineal, ferroviario, etc.) según las clases detectadas. (5) ANOMALÍAS: elementos sin contenedor espacial asignado, clases inesperadas para el tipo de proyecto detectado. Presenta la información en secciones con tablas claras.'},
+  {cat:'query',icon:'📦',title:'Inventario detallado de objetos',desc:'Lista completa de todos los objetos con GUID, tipo y ubicación en el espacio 3D',prompt:'Ejecuta get_scene_info con limit=-1 para obtener todos los objetos de la escena Blender. Con los resultados, genera: (1) TABLA MAESTRA: para cada objeto, muestra nombre (truncado a 50 chars), tipo Blender (MESH/EMPTY/etc.), clase IFC, GUID, y coordenadas de ubicación [X, Y, Z] en metros (redondear a 3 decimales). (2) RESUMEN POR CLASE IFC: agrupa los objetos por ifc_class y cuenta instancias. Calcula el porcentaje de cada clase sobre el total. (3) ANÁLISIS GEOESPACIAL: para los objetos tipo MESH, identifica la cota mínima Z y máxima Z del modelo, y las dimensiones aproximadas del bounding box del conjunto. (4) OBJETOS VACÍOS (EMPTY): lista los objetos de tipo EMPTY con su clase IFC — normalmente son contenedores espaciales. Detecta si hay objetos sin clase IFC asignada. Presenta un resumen ejecutivo al final con los indicadores clave del modelo.'},
+  {cat:'query',icon:'🎯',title:'Inspección de objeto seleccionado',desc:'Análisis profundo de la entidad IFC actualmente seleccionada en Blender',prompt:'Primero ejecuta get_selected_objects para identificar el objeto activo en Blender. Si hay exactamente un objeto seleccionado, toma su GUID y ejecuta get_object_info con guids=[GUID] y detailed=True. Con los datos devueltos, genera una ficha técnica completa que incluya: (1) IDENTIDAD IFC: nombre completo, clase IFC, predefined_type, GlobalId, ID numérico interno, nombre del objeto en Blender. (2) CONTENEDOR ESPACIAL: jerarquía de contención (en qué IfcSite / IfcBuilding / IfcStorey / IfcRailwayPart está ubicado este elemento, con GUIDs). (3) PROPERTY SETS: para cada Pset_, lista todos los parámetros con nombre y valor actual. Agrupa por Pset. Detecta campos vacíos o con valor nulo. (4) CANTIDADES (QTOs): área bruta, área neta, volumen, longitud, anchura, altura si están disponibles — convierte a unidades legibles. (5) MATERIALES: material(es) asignados con nombre. (6) RELACIONES: lista IfcRelAssociatesClassification y cualquier otra relación presente. (7) GEOMETRÍA: coordenadas de localización, dimensiones de la bounding box. Si no hay ningún objeto seleccionado, indica al usuario que seleccione un elemento en Blender antes de ejecutar.'},
+  {cat:'query',icon:'📐',title:'Propiedades geométricas detalladas',desc:'Geometría Blender del objeto: vértices, caras, bbox y matriz de transformación',prompt:'Primero ejecuta get_selected_objects para obtener el nombre del objeto activo en Blender. Con ese nombre, ejecuta get_blender_object_info con object_name=[NOMBRE_OBJETO]. Con los resultados, genera un informe geométrico que incluya: (1) POSICIÓN Y ORIENTACIÓN: coordenadas de localización [X, Y, Z] en metros (coordenadas del modelo, no globales), ángulos de rotación en grados, escala aplicada. (2) DIMENSIONES: largo × ancho × alto en metros con 4 decimales de precisión. (3) BOUNDING BOX: coordenadas de los vértices mínimo y máximo del cuadro envolvente en coordenadas mundo, y dimensiones resultantes. (4) MALLA: número de vértices, aristas y caras. Calcula la relación aristas/vértices (característica del tipo de geometría). (5) MATERIALES: nombre del material Blender asignado. (6) MATRIZ MUNDO: presenta la matriz 4×4 de transformación mundo de forma legible (indica traslación, rotación y escala extraídas). Si hay múltiples objetos seleccionados, pide al usuario que seleccione solo uno.'},
+  {cat:'query',icon:'🧱',title:'Análisis de losa (IfcSlab)',desc:'Propiedades geométricas completas de una losa: espesor, polilínea y tipo',prompt:'Primero ejecuta get_selected_objects para obtener el GUID del objeto seleccionado. Verifica que su clase IFC sea IfcSlab o una subclase. Si es correcto, ejecuta get_slab_properties con ese slab_guid. Con los resultados, genera: (1) IDENTIDAD: nombre completo de la losa, GUID, predefined_type (FLOOR / ROOF / LANDING / BASESLAB / NOTDEFINED). (2) GEOMETRÍA PARAMÉTRICA: espesor (depth) en mm y cm, dirección de extrusion (direction_sense: POSITIVE hacia arriba o NEGATIVE hacia abajo), offset desde el plano de referencia en metros, ángulo de inclinación x_angle en grados (0° = horizontal). (3) PLANTA DE LA LOSA: tabla de puntos de la polilínea perimetral [X, Y] en metros. Calcula la superficie aproximada a partir de la polilínea usando la fórmula del Teorema de Shoelace (m²). (4) CLASIFICACIÓN: ¿es losa de suelo, cubierta o rampa? ¿está inclinada? (5) ADVERTENCIAS: si la polilínea no cierra correctamente (el último punto no coincide con el primero), señálalo. Si el tipo está como NOTDEFINED, recomienda actualizarlo.'},
+  {cat:'query',icon:'🏷️',title:'Catálogo de estilos del modelo',desc:'Lista completa de estilos de superficie con color RGB, transparencia y uso',prompt:'Ejecuta list_styles para obtener todos los estilos de superficie definidos en el modelo IFC. Con los resultados, genera: (1) TABLA DE ESTILOS: para cada estilo, muestra nombre, ID interno, tipo (Shading / Rendering / PBR), color RGB en formato [0-1] y su equivalente hexadecimal (#RRGGBB), transparencia (0=opaco / 1=transparente), y si tiene propiedades PBR adicionales (metallic, roughness, emissive). (2) PALETA VISUAL: describe la gama cromática del modelo — ¿predominan los grises neutros de hormigón? ¿hay materiales diferenciados por color? ¿algún estilo tiene transparencia aplicada? (3) ESTADÍSTICAS: número total de estilos, distribución por tipo (Shading vs Rendering/PBR), porcentaje de estilos con color != gris neutro [0.75, 0.75, 0.75]. (4) RECOMENDACIONES: ¿hay estilos con nombres genéricos que deberían renombrarse? ¿hay materiales que parecen duplicados por tener el mismo color exacto? Presenta la tabla ordenada por nombre.'},
+  {cat:'query',icon:'🚪',title:'Tipos de operación de puertas disponibles',desc:'Catálogo de modos de apertura IFC con descripción funcional',prompt:'Ejecuta get_door_operation_types para obtener todos los tipos de operación de puerta soportados. Con los resultados, genera: (1) TABLA DE TIPOS: nombre del tipo, valor IFC equivalente, y una descripción funcional de cómo opera esa puerta (sentido de apertura, número de hojas, si es batiente/corredera/giratoria). (2) GUÍA DE SELECCIÓN: ¿cuándo usar cada tipo? Relaciona cada modo de operación con su uso típico en obra (acceso principal / emergencia / cuartos técnicos / paso peatonal / separación de usos). (3) NOTA NORMATIVA: indica qué tipos son habituales en proyectos de infraestructura pública vs. edificación convencional, y si algún tipo tiene implicaciones de accesibilidad (DB-SUA / UNE EN 81). Presenta el catálogo de forma clara con ejemplos de uso.'},
+  {cat:'query',icon:'🏠',title:'Tipos de cubierta y escalera disponibles',desc:'Catálogo de tipos IFC de cubierta y escalera para nuevas creaciones',prompt:'Ejecuta get_roof_types y get_stairs_types simultáneamente. Con los resultados de ambas llamadas, genera: (1) CATÁLOGO DE CUBIERTAS: tabla con cada tipo de cubierta, su equivalente IFC (IfcRoof predefined_type), descripción geométrica (plana, un agua, dos aguas, caballete, bóveda...) y uso típico en proyectos de infraestructura o edificación. Añade el ángulo de pendiente recomendado para cada tipo. (2) CATÁLOGO DE ESCALERAS: tabla con cada tipo de escalera, su equivalente IFC, descripción geométrica (recta, en L, en U, caracol, curva...) y criterios normativos básicos de accesibilidad (huella mínima, contrahuella máxima según CTE DB-SUA). (3) RECOMENDACIÓN: para el tipo de proyecto actualmente abierto (detectado de get_ifc_scene_overview), ¿qué tipos de cubierta y escalera son más habituales y compatibles con el schema IFC utilizado?'},
+  {cat:'query',icon:'📊',title:'Estado del sistema RAG de conocimiento IFC',desc:'Diagnóstico del sistema de búsqueda semántica sobre documentación IFC',prompt:'Ejecuta get_ifc_knowledge_status para obtener el estado actual del sistema de knowledge base RAG. Con los resultados, genera un diagnóstico claro: (1) ESTADO GENERAL: ¿está inicializado el sistema? (ready_for_instant_operations). Indica el estado resumido en un emoji — ✅ listo / ⚠️ no inicializado / ❌ error. (2) COMPONENTES: indica si knowledge_store_loaded y retriever_loaded están activos. Muestra cached_searches y cached_modules actuales. (3) SI NO ESTÁ INICIALIZADO: explica al usuario los pasos necesarios para inicializarlo — ejecutar ensure_ifc_knowledge_ready() y, si es necesario, el servidor de embeddings (scripts/embedding_server.py). (4) SI ESTÁ LISTO: indica qué operaciones de búsqueda semántica están disponibles (search_ifc_knowledge, find_ifc_function, get_ifc_module_info) y cómo aprovecharlas para consultar documentación de ifcopenshell. Presenta el diagnóstico de forma concisa y accionable.'},
+  // CAPTURAS
+  {cat:'capture',icon:'📸',title:'Captura del viewport 3D',desc:'Imagen limpia del modelo 3D sin interfaz de usuario Blender',prompt:'Ejecuta capture_blender_3dviewport_screenshot con format="JPEG", quality=90, max_size=1920, show_overlays=True, show_gizmo=False. Con la imagen obtenida, genera un análisis visual del modelo que incluya: (1) DESCRIPCIÓN GENERAL: ¿qué tipo de infraestructura o edificio se aprecia? ¿cuántos elementos se distinguen visualmente? ¿hay una organización lineal, puntual o de agrupación? (2) COMPOSICIÓN: describe la vista actual (perspectiva/ortográfica, orientación aproximada, si hay elementos seleccionados visibles). (3) MATERIALES Y COLORES: ¿se aprecian distintos materiales o todo está en gris neutro (sin estilo aplicado)? Lista los colores predominantes y a qué elementos parecen corresponder. (4) SUGERENCIAS: ¿sería útil una captura en vista superior, frontal o isométrica para comprender mejor el modelo? ¿convendría aplicar estilos de color diferenciados por clase IFC para mejorar la lectura? Usa la imagen como referencia visual para el resto de la sesión de trabajo.'},
+  {cat:'capture',icon:'🖥️',title:'Captura completa de Blender',desc:'Pantalla completa con UI, outliner, propiedades Bonsai y viewport',prompt:'Ejecuta capture_blender_window_screenshot con format="JPEG", quality=85, max_size=1600. Con la imagen obtenida, realiza una lectura técnica de la interfaz de Blender visible: (1) ESTADO DEL SERVIDOR MCP: ¿está el panel BlenderMCP visible en el sidebar? ¿indica "Running on port 9876" o "Disconnect from MCP server"? Esto confirma que la conexión está activa. (2) MODELO CARGADO: ¿qué archivo IFC aparece cargado según el título de la ventana o el panel de Bonsai? Indica el nombre del proyecto y la versión de Bonsai visible. (3) OUTLINER: describe brevemente la jerarquía de objetos visible en el outliner (panel izquierdo o superior derecho). ¿Qué clases IFC se distinguen? ¿Hay objetos seleccionados (resaltados en azul)? (4) PANEL DE PROPIEDADES BONSAI: si está visible el panel derecho de Bonsai (Project Overview, IFC Schema, Spatial Decomposition), describe lo que muestra — proyecto, schema, contenedor activo. (5) VIEWPORT 3D: describe el modelo visible — orientación, modo de sombreado, si hay elementos resaltados. Usa esta información como contexto de trabajo para la sesión.'},
+  // CÓDIGO IFC
+  {cat:'code',icon:'⚙️',title:'Consulta directa al modelo IFC (Python)',desc:'Ejecuta código ifcopenshell para extraer datos avanzados no accesibles por otras tools',prompt:'Ejecuta execute_ifc_code_tool con el siguiente código Python para obtener un inventario avanzado del modelo IFC:\n\nimport ifcopenshell\nimport ifcopenshell.util.element\nfrom blender_addon.api.ifc_utils import get_ifc_file\n\nifc_file = get_ifc_file()\n\n# Obtener schema e info del proyecto\nprojects = ifc_file.by_type("IfcProject")\nproject = projects[0] if projects else None\nprint(f"Proyecto: {project.Name if project else None}")\nprint(f"Schema: {ifc_file.schema}")\nprint(f"Total entidades: {len(list(ifc_file))}")\n\n# Conteo por clase IFC\nfrom collections import Counter\nclases = Counter(e.is_a() for e in ifc_file)\nfor cls, count in sorted(clases.items(), key=lambda x: -x[1])[:20]:\n    print(f"  {cls}: {count}")\n\nCon el output devuelto, genera: (1) confirmación del schema y nombre del proyecto, (2) tabla ordenada de las 20 clases más frecuentes con su conteo, (3) análisis de qué tipo de modelo es según las clases presentes, (4) comparación con el resultado de get_ifc_scene_overview si ya se ejecutó previamente — ¿coinciden los conteos? Si hay diferencias, explica por qué (elementos sin representación gráfica en Blender vs. entidades IFC puras).'},
+  {cat:'code',icon:'🔬',title:'Extracción de Property Sets completos',desc:'Vuelca todos los Psets de una clase IFC con análisis de completitud',prompt:'Ejecuta execute_ifc_code_tool con el siguiente código Python para extraer y analizar los Property Sets de todos los elementos de la clase que especifiques (por defecto IfcSlab):\n\nimport ifcopenshell\nimport ifcopenshell.util.element\nfrom blender_addon.api.ifc_utils import get_ifc_file\n\nifc_file = get_ifc_file()\nifc_class = "IfcSlab"  # Cambia aquí la clase a analizar\n\nelements = ifc_file.by_type(ifc_class)\nprint(f"Clase: {ifc_class} | Total: {len(elements)}")\n\n# Recolectar todos los Psets únicos\nall_psets = {}\nfor el in elements:\n    psets = ifcopenshell.util.element.get_psets(el)\n    for pset_name, props in psets.items():\n        if pset_name not in all_psets:\n            all_psets[pset_name] = set()\n        all_psets[pset_name].update(props.keys())\n\nfor pset_name, props in sorted(all_psets.items()):\n    print(f"\\n{pset_name}:")\n    for prop in sorted(props):\n        print(f"  - {prop}")\n\nCon el output, genera: (1) listado jerárquico de todos los Psets y propiedades encontrados, (2) clasifica entre Psets estándar IFC (Pset_SlabCommon, Qto_SlabBaseQuantities...) y Psets de proyecto (nombres personalizados), (3) identifica qué propiedades son de identidad, cuáles de cantidades y cuáles de clasificación, (4) detecta Psets de proyecto con nomenclatura estructurada (ej. Pset_01_PROYECTO, Pset_02_CANTIDADES) y explica su contenido.'},
+  // ESTILOS
+  {cat:'styleifc',icon:'🎨',title:'Auditoría de estilos del modelo',desc:'Análisis de la paleta cromática IFC y detección de estilos duplicados o sin usar',prompt:'Ejecuta list_styles para obtener todos los estilos. Con los resultados, genera una auditoría visual completa: (1) PALETA DE COLORES: presenta cada estilo con su nombre y color hexadecimal equivalente. Agrupa visualmente: ¿hay una familia cromática coherente o colores dispersos? (2) ANÁLISIS DE DIFERENCIACIÓN: calcula la distancia de color entre estilos similares (si el modelo tiene muchos grises, ¿se distinguen bien entre sí?). ¿Se puede leer el modelo a color de forma clara o todos los elementos tienen colores muy próximos? (3) DETECCIÓN DE DUPLICADOS: identifica estilos con color exactamente igual o con diferencia RGB < 0.02 en los tres canales — son candidatos a fusionarse. (4) TRANSPARENCIAS: lista los estilos con transparencia > 0 y describe para qué tipo de elementos es adecuado ese nivel de transparencia. (5) RECOMENDACIONES: propón una paleta de colores diferenciada por las clases IFC presentes en el modelo (IfcSlab=gris, IfcKerb=amarillo, IfcPavement=negro asfáltico, IfcRailing=azul, IfcCourse=beige). Incluye los valores RGB sugeridos.'},
+  // CREACIÓN
+  {cat:'create',icon:'🧱',title:'Crear muro entre dos puntos',desc:'IfcWall paramétrico definido por punto inicial, punto final, altura y espesor',prompt:'Antes de crear el muro, ejecuta get_ifc_scene_overview para conocer el esquema IFC y el contenedor espacial activo. Luego solicita al usuario: (1) Coordenadas del punto inicial [X, Y, Z] en metros. (2) Coordenadas del punto final [X, Y, Z] en metros. (3) Altura del muro en metros (valor por defecto: 3.0 m). (4) Espesor del muro en metros (valor por defecto: 0.20 m). (5) Nombre descriptivo del muro. Solo cuando el usuario confirme los parámetros, ejecuta create_two_point_wall con: start_point=[X1,Y1,Z1], end_point=[X2,Y2,Z2], height=H, thickness=T, name="NOMBRE". Tras la ejecución, si tiene éxito: muestra el GUID del muro creado, la longitud calculada automáticamente (distancia entre puntos), y ejecuta capture_blender_3dviewport_screenshot para confirmar visualmente su posición en el modelo. ADVERTENCIA: esta operación modifica el archivo IFC — asegúrate de haber guardado el proyecto antes de ejecutar.',write:true},
+  {cat:'create',icon:'⬜',title:'Crear losa IfcSlab personalizada',desc:'Losa con polilínea perimetral personalizada, espesor y posición 3D',prompt:'Antes de crear la losa, ejecuta get_ifc_scene_overview para conocer el contenedor activo y get_scene_info con limit=5 para ver las coordenadas aproximadas del modelo. Luego solicita al usuario: (1) Lista de puntos 2D [[X1,Y1], [X2,Y2], ...] que definen el perímetro de la losa en metros. (2) Espesor (depth) de la losa en metros (valor por defecto: 0.20 m). (3) Posición 3D [X, Y, Z] del plano de la losa en metros. (4) Dirección de extrusion: POSITIVE (hacia arriba) o NEGATIVE (hacia abajo). (5) Nombre de la losa. Calcula y muestra al usuario la superficie aproximada de la polilínea antes de crear (fórmula de Shoelace). Solo cuando el usuario confirme, ejecuta create_slab con polyline, depth, location y name. NOTA: en modelos grandes esta operación puede tardar (save_and_load_ifc). Tras la ejecución, verifica con get_slab_properties usando el GUID devuelto.',write:true},
+  {cat:'create',icon:'🏠',title:'Crear cubierta IfcRoof',desc:'Cubierta paramétrica con tipo geométrico (plana, dos aguas, caballete), ángulo y espesor',prompt:'Antes de crear la cubierta, ejecuta get_roof_types para mostrar al usuario los tipos disponibles. Luego solicita: (1) Tipo de cubierta (FLAT / SHED / GABLE / HIP / DOME / etc.). (2) Lista de puntos 3D [[X1,Y1,Z1], [X2,Y2,Z2], ...] que definen el perímetro de la cubierta — al menos 3 puntos, con la coordenada Z correspondiente a la cota de arranque de la cubierta. (3) Ángulo de pendiente en grados (por defecto 30°, irrelevante para FLAT). (4) Espesor estructural en metros (por defecto 0.30 m). (5) Nombre de la cubierta. Muestra un resumen de parámetros y espera confirmación del usuario. Solo entonces ejecuta create_roof con polyline, roof_type, angle, thickness y name. ADVERTENCIA: guarda el archivo .ifc antes de ejecutar. En modelos grandes puede producirse timeout.',write:true},
+  {cat:'create',icon:'🪜',title:'Crear escalera IfcStair',desc:'Escalera paramétrica con tipo geométrico, altura, anchura y número de peldaños',prompt:'Antes de crear la escalera, ejecuta get_stairs_types para mostrar los tipos soportados con su equivalente IFC. Luego solicita al usuario: (1) Tipo de escalera (STRAIGHT / SPIRAL / L_SHAPED / U_SHAPED / CURVED). (2) Altura total a salvar en metros. (3) Anchura de la escalera en metros. (4) Número de peldaños deseado (opcional — el sistema puede calcularlo). (5) Posición [X, Y, Z] de inicio de la escalera. (6) Nombre. Calcula y muestra al usuario: contrahuella = altura_total / n_peldaños (verificar ≤ 0.18 m para CTE), huella = (anchura_zancada) (verificar ≥ 0.28 m para CTE), relación 2C+H (verificar entre 0.62-0.64 m). Advierte si los valores no cumplen normativa. Solo con confirmación del usuario, ejecuta create_stairs. Tras la ejecución, ejecuta capture_blender_3dviewport_screenshot para verificación visual.',write:true},
+  {cat:'create',icon:'🚪',title:'Crear puerta IfcDoor',desc:'Puerta paramétrica con tipo de operación, dimensiones y muro anfitrión opcional',prompt:'Antes de crear la puerta, ejecuta get_door_operation_types para mostrar los tipos de apertura disponibles. Solicita al usuario: (1) Tipo de operación de la puerta (SINGLE_SWING_LEFT / SINGLE_SWING_RIGHT / DOUBLE_DOOR_SINGLE_SWING / SLIDING_TO_LEFT / etc.). (2) Anchura de la luz en metros (valor típico 0.90 m para paso normal, 1.20 m para accesibilidad, 2.00 m para doble hoja). (3) Altura de la puerta en metros (valor típico 2.10 m). (4) Posición [X, Y, Z] en metros — si va en un muro, indica el GUID del muro anfitrión. (5) Nombre. Verifica dimensiones mínimas de accesibilidad: anchura ≥ 0.80 m libre (DB-SUA). Muestra resumen y espera confirmación. Ejecuta create_door. ADVERTENCIA: guarda el archivo .ifc antes de ejecutar.',write:true},
+  {cat:'create',icon:'🪟',title:'Crear ventana IfcWindow',desc:'Ventana con tipo de partición de hojas, marco, panel y posición en muro',prompt:'Antes de crear la ventana, ejecuta get_window_partition_types para mostrar los tipos de partición disponibles (SINGLE_PANEL, DOUBLE_PANEL_VERTICAL, TRIPLE_PANEL_HORIZONTAL, etc.). Solicita al usuario: (1) Tipo de partición de la ventana. (2) Anchura total de la ventana en metros. (3) Altura total de la ventana en metros. (4) Posición [X, Y, Z] — cota del alféizar sobre el nivel del suelo como coordenada Z. (5) GUID del muro anfitrión si se quiere crear apertura automática (create_opening=True). (6) Propiedades de marco deseadas (lining_depth, lining_thickness) si el usuario las conoce — si no, usar valores por defecto. (7) Nombre de la ventana. Verifica: anchura mínima 0.60 m para ventilación natural (CTE DB-HS). Muestra resumen y espera confirmación. Ejecuta create_window.',write:true},
+  // EDICIÓN
+  {cat:'editifc',icon:'✏️',title:'Actualizar geometría de losa existente',desc:'Modifica la polilínea perimetral o el espesor de una losa IfcSlab por GUID',prompt:'Primero ejecuta get_selected_objects para obtener el GUID del objeto seleccionado en Blender. Verifica que su clase sea IfcSlab. Si es correcto, ejecuta get_slab_properties con ese GUID para mostrar al usuario el estado actual: polilínea actual, espesor actual, offset y ángulo. Pregunta al usuario qué quiere modificar: (A) Solo el espesor (depth) — solicita el nuevo valor en metros. (B) Solo la polilínea — solicita la nueva lista de puntos [[X1,Y1], [X2,Y2], ...]. (C) Ambos. Muestra un resumen comparativo: valor actual vs. valor nuevo para cada parámetro a cambiar. Espera confirmación explícita del usuario. Solo entonces ejecuta update_slab con slab_guid, y los parámetros nuevos (depth y/o polyline). Tras la actualización, ejecuta get_slab_properties de nuevo para verificar que los valores se aplicaron correctamente. ADVERTENCIA: guarda el archivo .ifc antes de ejecutar.',write:true},
+  {cat:'editifc',icon:'🎨',title:'Crear y aplicar estilo de superficie',desc:'Define un nuevo estilo de color y lo aplica a uno o varios objetos IFC',prompt:'Este flujo de trabajo crea un nuevo estilo y lo aplica a los objetos seleccionados. Pasos: (1) Ejecuta get_selected_objects para obtener los GUIDs de los objetos seleccionados en Blender. Si no hay ninguno, pide al usuario que seleccione elementos en Blender primero. (2) Ejecuta list_styles para mostrar los estilos ya existentes — pregunta si el usuario quiere usar uno existente o crear uno nuevo. (3) Si crea uno nuevo, solicita: nombre del estilo, color RGB (valores entre 0.0 y 1.0, ej. [1.0, 0.5, 0.0] para naranja), transparencia (0.0=opaco, 0.7=semitransparente). (4) Ejecuta create_surface_style con name, color y transparency. (5) Una vez creado con éxito (obtienes el nombre confirmado), ejecuta apply_style_to_object con object_guids=[lista de GUIDs seleccionados] y style_name. (6) Ejecuta capture_blender_3dviewport_screenshot para verificar el resultado visual. ADVERTENCIA: ambas operaciones (create_surface_style y apply_style_to_object) pueden producir timeout en modelos grandes.',write:true},
+  {cat:'editifc',icon:'🔧',title:'Modificar propiedades IFC via código Python',desc:'Edición directa de atributos, property sets y relaciones usando ifcopenshell.api',prompt:'Ejecuta execute_ifc_code_tool con código Python para realizar una modificación controlada en el modelo IFC. Primero muestra al usuario el siguiente código de ejemplo (modificar parámetros de un Pset existente) y pide que adapte el GUID y los valores:\n\nimport ifcopenshell\nimport ifcopenshell.api\nimport ifcopenshell.util.element\nfrom blender_addon.api.ifc_utils import get_ifc_file, save_and_load_ifc\n\nifc_file = get_ifc_file()\n\n# Buscar elemento por GUID\nguid = "AQUI_EL_GUID_DEL_ELEMENTO"\nelement = ifc_file.by_guid(guid)\nif not element:\n    print(f"ERROR: No se encontró el elemento con GUID {guid}")\nelse:\n    print(f"Elemento encontrado: {element.is_a()} - {element.Name}")\n    # Obtener psets actuales\n    psets = ifcopenshell.util.element.get_psets(element)\n    print(f"Psets actuales: {list(psets.keys())}")\n    \n    # Ejemplo: modificar un atributo directo\n    # ifcopenshell.api.run("attribute.edit_attributes", ifc_file, product=element, attributes={"Name": "Nuevo Nombre"})\n    # save_and_load_ifc()\n    print("Modificacion completada")\n\nTras ejecutar el código de diagnóstico inicial, explica al usuario qué modificaciones son posibles y cuál es la sintaxis correcta para cada tipo de cambio (atributos directos, property sets, relaciones). Antes de ejecutar cualquier modificación real, muestra el código completo y espera confirmación. ADVERTENCIA: guarda el archivo .ifc antes de cualquier modificación.',write:true},
+]
+
+var c3d=[],rvt=[],bns=[];
+
+var _icons={
+  'Estado del proyecto':'📁',
+  'Alineaciones':'📐',
+  'Perfiles longitudinales':'📏',
+  'Superficies':'🗺️',
+  'Secciones transversales':'📦',
+  'Geometría en planta':'🛣️',
+  'Pendientes y rampas':'📉',
+  'Acuerdos verticales':'🔄',
+  'Puntos críticos del trazado':'⚠️',
+  'Informe de trazado':'📄',
+  'Balance de tierras':'⚖️',
+  'Informe hidráulico':'💧',
+  'Mediciones por tramos':'📊',
+  'Distancias de visibilidad':'📏',
+  'Análisis de drenaje longitudinal':'🌧️',
+  'Coordinación planta-alzado':'🔀',
+  'Parámetros de diseño por alineación':'🏷️',
+  'Calidad de datos de superficies':'📝',
+  'Diagnóstico de niveles':'🏢',
+  'Inventario por categorías':'🚪',
+  'Habitaciones y áreas':'🏠',
+  'Dimensiones y envolvente':'📐',
+  'Auditoría de vistas':'🔍',
+  'Análisis de tipos de muro':'🧱',
+  'Inventario de materiales':'🪵',
+  'Cuadro de superficies por uso':'📊',
+  'Estructura — inventario y revisión':'🔩',
+  'Sistemas MEP — diagnóstico':'💡',
+  'Memoria BIM del proyecto':'📄',
+  'Mediciones por nivel':'📋',
+  'Control de calidad BIM (QA)':'🏗️',
+  'Preparación para exportación IFC':'📦',
+  'Auditoría de parámetros':'🏷️',
+  'Parámetros vacíos críticos':'🔎',
+  'Parámetros por familia':'✏️',
+  'Extracción de valores por parámetro':'📝',
+  'Crear habitación con datos completos':'🆕',
+  'Crear muro con tipo y datos de proyecto':'🧱',
+  'Crear nivel con vistas asociadas':'📏',
+  'Actualizar parámetros en lote':'🏷️',
+  'Colocar puerta o ventana':'🚪',
+  'Etiquetar elementos automáticamente':'🏷️',
+  'Eliminar elementos con análisis de impacto':'🗑️',
+  'Coherencia de cotas rasante–Revit':'🛣️',
+  'Interferencias estructura–infraestructura':'🏗️',
+  'Alineación de ejes y sistema de coordenadas':'📏',
+  'Redes bajo rasante y reservas de paso':'🌊',
+  'Informe de coordinación interdisciplinar':'🔗',
+  'Vista general del modelo IFC':'🔍',
+  'Inventario detallado de objetos':'📦',
+  'Inspección de objeto seleccionado':'🎯',
+  'Propiedades geométricas detalladas':'📐',
+  'Análisis de losa (IfcSlab)':'🧱',
+  'Catálogo de estilos del modelo':'🏷️',
+  'Tipos de operación de puertas disponibles':'🚪',
+  'Tipos de cubierta y escalera disponibles':'🏠',
+  'Estado del sistema RAG de conocimiento IFC':'📊',
+  'Captura del viewport 3D':'📸',
+  'Captura completa de Blender':'🖥️',
+  'Consulta directa al modelo IFC (Python)':'⚙️',
+  'Extracción de Property Sets completos':'🔬',
+  'Auditoría de estilos del modelo':'🎨',
+  'Crear muro entre dos puntos':'🧱',
+  'Crear losa IfcSlab personalizada':'⬜',
+  'Crear cubierta IfcRoof':'🏠',
+  'Crear escalera IfcStair':'🪜',
+  'Crear puerta IfcDoor':'🚪',
+  'Crear ventana IfcWindow':'🪟',
+  'Actualizar geometría de losa existente':'✏️',
+  'Crear y aplicar estilo de superficie':'🎨',
+  'Modificar propiedades IFC via código Python':'🔧'
+};
+
+var _catMap={
+  // Etiquetas en español
+  'Modelo':'model','Trazado':'trazado','Reporte':'report',
+  'Análisis':'analysis','Parámetros':'params',
+  'BIM':'bim','Edición':'edit','Coordinación':'coord',
+  'Consulta IFC':'query','Captura':'capture',
+  'Código IFC':'code','Estilos':'style','Creación':'create',
+  'Edición IFC':'edit',
+  // Claves internas tal como aparecen en la lista real
+  'model':'model','trazado':'trazado','civil':'trazado',
+  'report':'report','analysis':'analysis','param':'params','params':'params',
+  'bim':'bim','edit':'edit','coord':'coord',
+  'query':'query','capture':'capture','code':'code',
+  'styleifc':'style','style':'style','create':'create','editifc':'edit'
+};
+
+var _estadoBadge={
+  'Funciona':  {cls:'ok',   label:'Funciona'},
+  'Sin probar':{cls:'trial',label:'Sin probar'},
+  'Error':     {cls:'err',  label:'Error'}
+};
+
+// ═══════════════════════════════════════════════════════════════════════
+// CONFIGURACIÓN SHAREPOINT
+// ═══════════════════════════════════════════════════════════════════════
+var SP_CONFIG = {
+  siteUrl:  'https://acciona365.sharepoint.com/sites/BIMTeams',
+  listName: 'IA_BIMToolkit',
+
+  // Nombres internos de columna — verificados el 28/04/2026
+  // Lista importada desde Excel → SharePoint asignó field_0, field_1...
+  // Título usa 'LinkTitle' (columna de sistema de SharePoint Lists)
+  fields: {
+    programa:       'field_0',
+    categoria:      'field_1',
+    titulo:         'LinkTitle',
+    tipo:           'field_3',
+    promptCorto:    'field_4',
+    promptCompleto: 'field_5',
+    estado:         'field_6',
+    valoracion:     'field_7',
+    comentarios:    'field_8',
+    casosDeUso:     'field_9'
+  }
+};
+// ═══════════════════════════════════════════════════════════════════════
+
+function _spItemToTool(item){
+  var f=SP_CONFIG.fields;
+  var titulo  = item[f.titulo]         || item['Title'] || '';
+  var catRaw  = item[f.categoria]      || '';
+  var tipo    = item[f.tipo]           || '';
+  var promptC = item[f.promptCompleto] || item[f.promptCorto] || '';
+  var promptS = item[f.promptCorto]    || '';
+  var estado  = item[f.estado]         || 'Sin probar';
+  return {
+    cat:    _catMap[catRaw] || 'model',
+    icon:   _icons[titulo]  || '\uD83D\uDD27',
+    title:  titulo,
+    desc:   promptS,
+    prompt: promptC || promptS,
+    write:  (tipo === 'Escritura'),
+    estado: estado,
+    val:    item[f.valoracion]    || null,
+    tips:   item[f.comentarios]   || '',
+    uses:   item[f.casosDeUso]    || ''
+  };
+}
+
+function _setLoading(msg){
+  ['c3d-cards','rvt-cards','bns-cards'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.innerHTML='<div class="empty" style="padding:2rem 0;opacity:.55;">'+msg+'</div>';
+  });
+}
+
+function loadFromSharePoint(){
+  var f=SP_CONFIG.fields;
+  var sel=[f.programa,f.categoria,f.titulo,f.tipo,
+           f.promptCorto,f.promptCompleto,f.estado,
+           f.valoracion,f.comentarios,f.casosDeUso].filter(Boolean).join(',');
+
+  var url=SP_CONFIG.siteUrl+
+    "/_api/web/lists/getbytitle('"+SP_CONFIG.listName+"')/items"+
+    "?$select="+encodeURIComponent(sel)+
+    "&$top=500&$orderby="+encodeURIComponent(f.programa)+"%20asc";
+
+  _setLoading('Cargando desde Microsoft Lists…');
+
+  fetch(url,{
+    headers:{'Accept':'application/json;odata=nometadata'},
+    credentials:'include'
+  })
+  .then(function(res){
+    if(!res.ok) throw new Error('HTTP '+res.status+' — comprueba permisos o nombres de columna');
+    return res.json();
+  })
+  .then(function(data){
+    var items=data.value||[];
+    if(!items.length){ _setLoading('Lista vacía o sin acceso. Comprueba permisos.'); return; }
+
+    c3d.length=0; rvt.length=0; bns.length=0;
+
+    items.forEach(function(item){
+      var prog=(item[f.programa]||'').trim().toLowerCase();
+      var tool=_spItemToTool(item);
+      if(prog.indexOf('civil')!==-1)       c3d.push(tool);
+      else if(prog.indexOf('revit')!==-1)  rvt.push(tool);
+      else if(prog.indexOf('bonsai')!==-1||prog.indexOf('ifc')!==-1) bns.push(tool);
+    });
+
+    document.getElementById('cnt-bns').textContent=bns.length;
+    renderC3d(); renderRvt(); renderBns();
+    console.log('SP load OK — C3D:'+c3d.length+' RVT:'+rvt.length+' BNS:'+bns.length);
+  })
+  .catch(function(err){
+    console.warn('SharePoint error, usando datos locales:',err.message);
+    c3d.length=0; rvt.length=0; bns.length=0;
+    _localC3d.forEach(function(t){c3d.push(t);});
+    _localRvt.forEach(function(t){rvt.push(t);});
+    _localBns.forEach(function(t){bns.push(t);});
+    document.getElementById('cnt-bns').textContent=bns.length;
+    renderC3d(); renderRvt(); renderBns();
+    _showSpError(err.message);
+  });
+}
+
+function _showSpError(msg){
+  var bar=document.createElement('div');
+  bar.style.cssText='position:fixed;bottom:12px;right:16px;background:#fff3cd;border:1px solid #ffc107;'+
+    'border-radius:6px;padding:8px 14px;font-size:12px;color:#856404;max-width:340px;z-index:999;'+
+    'box-shadow:0 2px 8px rgba(0,0,0,.12);';
+  bar.innerHTML='⚠️ Mostrando datos locales (no conectado a SP).<br><small style="opacity:.7">'+msg+'</small>'+
+    '<button onclick="this.parentNode.remove()" style="float:right;border:none;background:none;cursor:pointer;font-size:14px;margin-top:-2px;">×</button>';
+  document.body.appendChild(bar);
+}
+
+
+var catLabelBns={query:'Consulta IFC',capture:'Captura',code:'Código IFC',styleifc:'Estilos',create:'Creación',editifc:'Edición IFC'};
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
+function cardHtml(t,i,acc){
+  var isWrite=!!t.write,isGem=(client==='gemini');
+  var sLabel,sCls,disabled='';
+  if(acc==='c3d'){
+    if(isGem){sLabel='Solo Claude Desktop';sCls='bsend';disabled='disabled style="opacity:.4;cursor:not-allowed"';}
+    else{sLabel='Enviar a Claude ↗';sCls='bsend bc3d';}
+  } else if(acc==='rvt'){
+    if(isGem){sLabel='Copiar para Gemini';sCls=isWrite?'bsend bdanger':'bsend bgem';}
+    else{sLabel='Enviar a Claude ↗';sCls=isWrite?'bsend bdanger':'bsend brvt';}
+  } else {
+    sLabel='Enviar a Claude ↗';
+    sCls=isWrite?'bsend bdanger':'bsend bbns';
+  }
+  var arr=(acc==='c3d'?c3d:acc==='rvt'?rvt:bns);
+  return '<div class="card cat-'+esc(t.cat)+(isWrite?(acc==='bns'?' bcard':' wcard'):'')+'">'+
+    '<span class="badge cat-'+esc(t.cat)+'">'+(acc==='bns'?esc(catLabelBns[t.cat]):esc(catLabel[t.cat]))+'</span>'+
+    '<span class="cicon">'+t.icon+'</span>'+
+    '<div class="ctitle">'+esc(t.title)+(t.estado?'<span class="badge-'+((_estadoBadge[t.estado]||{cls:'trial'}).cls)+'">'+esc((_estadoBadge[t.estado]||{label:t.estado}).label)+'</span>':'')+'</div>'+
+    '<div class="cdesc">'+esc(t.desc)+'</div>'+
+    '<div class="cbtns">'+
+      '<button class="'+sCls+'" '+disabled+' onclick="send('+i+',\''+acc+'\')">'+esc(sLabel)+'</button>'+
+      '<button class="bcopy" id="cp-'+acc+'-'+i+'" onclick="copy('+i+',\''+acc+'\',this)">Copiar</button>'+
+    '</div>'+
+  '</div>';
+}
+
+var catLabel={model:'Modelo',civil:'Trazado',report:'Reporte',analysis:'Análisis',param:'Parámetros',bim:'BIM',edit:'Edición',coord:'Coordinación'};
+
+function section(label,tools,acc,isWrite){
+  if(!tools.length)return'';
+  return '<div class="seclabel'+(isWrite?(acc==='bns'?' purple':' danger'):'')+'">'+label+'</div>'+
+    '<div class="grid">'+tools.map(function(t){var arr=(acc==='bns'?bns:acc==='c3d'?c3d:rvt);return cardHtml(t,arr.indexOf(t),acc)}).join('')+'</div>';
+}
+
+function renderC3d(){
+  var f=ac3d==='all'?c3d:c3d.filter(function(t){return t.cat===ac3d});
+  if(!f.length){document.getElementById('c3d-cards').innerHTML='<div class="empty">Sin herramientas en esta categoría.</div>';return;}
+  var read=f.filter(function(t){return!t.write}),write=f.filter(function(t){return t.write});
+  var h='<div class="grid">'+read.map(function(t){return cardHtml(t,c3d.indexOf(t),'c3d')}).join('')+'</div>';
+  if(write.length)h+=section('Edición del modelo',write,'c3d',true);
+  document.getElementById('c3d-cards').innerHTML=h;
+}
+
+function renderRvt(){
+  var f=arvt==='all'?rvt:rvt.filter(function(t){return t.cat===arvt});
+  if(!f.length){document.getElementById('rvt-cards').innerHTML='<div class="empty">Sin herramientas en esta categoría.</div>';return;}
+  var read=f.filter(function(t){return!t.write}),write=f.filter(function(t){return t.write});
+  var h='';
+  if(arvt==='all')h+='<div class="seclabel">Lectura y análisis</div>';
+  h+='<div class="grid">'+read.map(function(t){return cardHtml(t,rvt.indexOf(t),'rvt')}).join('')+'</div>';
+  if(write.length)h+=section('Edición del modelo — guarda el proyecto antes de usar',write,'rvt',true);
+  document.getElementById('rvt-cards').innerHTML=h;
+}
+
+function renderBns(){
+  var f=abns==='all'?bns:bns.filter(function(t){return t.cat===abns});
+  if(!f.length){document.getElementById('bns-cards').innerHTML='<div class="empty">Sin herramientas en esta categoría.</div>';return;}
+  var read=f.filter(function(t){return!t.write}),write=f.filter(function(t){return t.write});
+  var h='';
+  if(abns==='all')h+='<div class="seclabel">Lectura, consulta y capturas</div>';
+  h+='<div class="grid">'+read.map(function(t){return cardHtml(t,bns.indexOf(t),'bns')}).join('')+'</div>';
+  if(write.length)h+=section('Escritura IFC — guarda el archivo .ifc antes de usar (Ctrl+S)',write,'bns',true);
+  document.getElementById('bns-cards').innerHTML=h;
+  document.getElementById('bns-warn').className='warn-bns'+((abns==='create'||abns==='editifc')?' on':'');
+}
+
+function fc3d(cat,btn){
+  ac3d=cat;
+  document.querySelectorAll('#panel-c3d .fb').forEach(function(b){b.classList.remove('fac3d')});
+  btn.classList.add('fac3d');
+  renderC3d();
+}
+function frvt(cat,btn){
+  arvt=cat;
+  document.querySelectorAll('#panel-rvt .fb').forEach(function(b){b.classList.remove('farvt')});
+  btn.classList.add('farvt');
+  document.getElementById('rvt-warn').className='warn'+(cat==='edit'?' on':'');
+  renderRvt();
+}
+function fbns(cat,btn){
+  abns=cat;
+  document.querySelectorAll('#panel-bns .fb').forEach(function(b){b.classList.remove('fabns')});
+  btn.classList.add('fabns');
+  document.getElementById('bns-warn').className='warn-bns'+((cat==='create'||cat==='editifc')?' on':'');
+  renderBns();
+}
+
+function showTab(tab){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on')});
+  document.getElementById('panel-'+tab).classList.add('on');
+  document.getElementById('tab-c3d').className='tabbtn'+(tab==='c3d'?' ac3d':'');
+  document.getElementById('tab-rvt').className='tabbtn'+(tab==='rvt'?' arvt':'');
+  document.getElementById('tab-bns').className='tabbtn'+(tab==='bns'?' abns':'');
+}
+
+function setClient(c,btn){
+  client=c;
+  document.querySelectorAll('.tc').forEach(function(b){b.classList.remove('on')});
+  btn.classList.add('on');
+  document.getElementById('ts').textContent=c==='claude'?'Civil 3D · Revit 2026 · Bonsai IFC':'Revit 2026 · Gemini CLI';
+  document.getElementById('c3d-st').textContent=c==='claude'?'civil3d · Claude Desktop':'civil3d · Solo Claude Desktop';
+  document.getElementById('rvt-st').textContent=c==='claude'?'mcp-server-for-revit · Claude Desktop':'mcp-server-for-revit · Gemini CLI';
+  document.getElementById('bns-st').textContent='ifc-bonsai-mcp · Claude Desktop';
+  document.getElementById('c3d-dot').className='sdot'+(c==='gemini'?' amber':'');
+  document.getElementById('gnote').className='gnote'+(c==='gemini'?' on':'');
+  renderC3d();renderRvt();renderBns();
+}
+
+function send(i,acc){
+  if(client==='gemini'&&acc==='c3d')return;
+  var arr=(acc==='c3d'?c3d:acc==='rvt'?rvt:bns);
+  var t=arr[i];
+  if(client==='gemini'&&acc!=='bns'){navigator.clipboard&&navigator.clipboard.writeText(t.prompt);return;}
+  try{sendPrompt(t.prompt);}catch(e){}
+}
+
+function copy(i,acc,btn){
+  var arr=(acc==='c3d'?c3d:acc==='rvt'?rvt:bns);
+  var t=arr[i];
+  navigator.clipboard&&navigator.clipboard.writeText(t.prompt).then(function(){
+    btn.textContent='¡Copiado!';btn.classList.add('ok');
+    setTimeout(function(){btn.textContent='Copiar';btn.classList.remove('ok');},1500);
+  });
+}
+
+document.getElementById('gnote').className='gnote';
+loadFromSharePoint();
+
+// ── Detector de iframe / Teams ───────────────────────────────────────────────
+(function(){
+  try {
+    var inIframe = (window.self !== window.top);
+    if(inIframe){
+      var banner = document.getElementById('teams-banner');
+      var btn    = document.getElementById('teams-open-btn');
+      if(banner){ banner.style.display='flex'; }
+      if(btn)   { btn.href = window.location.href; }
+      // Pad body so banner doesn't overlap content
+      document.body.style.paddingTop = '44px';
+    }
+  } catch(e) {
+    // cross-origin check threw — we're in a restricted iframe (Teams)
+    var banner = document.getElementById('teams-banner');
+    var btn    = document.getElementById('teams-open-btn');
+    if(banner){ banner.style.display='flex'; }
+    document.body.style.paddingTop = '44px';
+  }
+})();
+
+</script>
+
+
+</body></html>
